@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biso by Dinushi — Bridal Investment Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-pale: #F5E6B8;
+    --gold-dim: #8B6914;
+    --black: #080808;
+    --black-mid: #181818;
+    --black-card: #121212;
+    --off-white: #F7F0E0;
+    --text-muted: #A08B5A;
+    --text-dim: #6B5A35;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 24px rgba(201,168,76,0.10); }
+    50%       { box-shadow: 0 0 52px rgba(201,168,76,0.22); }
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 44px 88px;
+  }
+
+  /* ── HEADER ── */
+  .ornament-frame { position: relative; padding: 44px; }
+  .ornament-frame::before, .ornament-frame::after {
+    content: ''; position: absolute;
+    width: 42px; height: 42px;
+    border-color: rgba(201,168,76,0.30); border-style: solid;
+  }
+  .ornament-frame::before { top:0; left:0; border-width: 1px 0 0 1px; }
+  .ornament-frame::after  { bottom:0; right:0; border-width: 0 1px 1px 0; }
+  .inner-ornament { position: relative; }
+  .inner-ornament::before, .inner-ornament::after {
+    content: ''; position: absolute;
+    width: 42px; height: 42px;
+    border-color: rgba(201,168,76,0.30); border-style: solid;
+  }
+  .inner-ornament::before { top:0; right:0; border-width: 1px 1px 0 0; }
+  .inner-ornament::after  { bottom:0; left:0; border-width: 0 0 1px 1px; }
+
+  .header {
+    text-align: center;
+    padding-bottom: 52px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .brand-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    background: linear-gradient(90deg, var(--gold-dim) 0%, var(--gold-light) 30%, var(--gold-pale) 50%, var(--gold-light) 70%, var(--gold-dim) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 5s linear infinite;
+    line-height: 1.1;
+  }
+
+  .brand-sub {
+    font-size: 0.82rem;
+    letter-spacing: 0.38em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .header-rule {
+    display: flex; align-items: center; gap: 16px;
+    margin: 28px auto 24px; max-width: 400px;
+  }
+  .header-rule span { flex:1; height:1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .diamond { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+
+  .doc-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.45em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.48em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* ── PACKAGES ── */
+  .packages {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.9s ease 0.15s both;
+  }
+
+  .pkg {
+    position: relative;
+    background: var(--black-card);
+    border: 1px solid rgba(201,168,76,0.18);
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .pkg::before {
+    content: '';
+    position: absolute; top:0; left:0; bottom:0;
+    width: 3px;
+    background: linear-gradient(180deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .pkg.featured {
+    background: linear-gradient(155deg, #1A1400 0%, #111111 60%);
+    animation: glowPulse 5s ease-in-out infinite;
+  }
+  .pkg.featured::before {
+    width: 3px;
+    background: linear-gradient(180deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
+  }
+
+  .pkg.royal {
+    background: linear-gradient(155deg, #130F00 0%, #0D0D0D 65%);
+  }
+  .pkg.royal::before {
+    background: linear-gradient(180deg, transparent, var(--gold-pale), transparent);
+  }
+
+  /* Package top bar */
+  .pkg-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 24px;
+    padding: 32px 36px 24px 44px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+
+  .pkg-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.52rem;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+    padding: 4px 14px;
+    margin-bottom: 10px;
+  }
+
+  .pkg-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.44em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .pkg-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--off-white);
+    line-height: 1.15;
+  }
+
+  .featured .pkg-name {
+    background: linear-gradient(90deg, var(--gold-light), var(--gold-pale), var(--gold-light));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+  }
+
+  .royal .pkg-name { color: var(--gold-pale); }
+
+  .pkg-tagline {
+    font-size: 0.92rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 5px;
+    letter-spacing: 0.025em;
+  }
+
+  /* Occasions chips */
+  .pkg-occasions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .occ-chip {
+    font-size: 0.72rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid rgba(201,168,76,0.22);
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.3);
+  }
+
+  .featured .occ-chip {
+    border-color: rgba(201,168,76,0.35);
+    color: var(--gold-light);
+  }
+
+  .royal .occ-chip {
+    border-color: rgba(201,168,76,0.30);
+    color: var(--gold-pale);
+  }
+
+  /* Pricing block */
+  .pkg-pricing {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .pkg-price-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.32em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .pkg-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .featured .pkg-price { color: var(--gold-pale); font-size: clamp(1.6rem, 4vw, 2.2rem); }
+  .royal .pkg-price    { color: var(--gold-pale); font-size: clamp(1.6rem, 4vw, 2.2rem); }
+
+  .pkg-saving {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 5px;
+    letter-spacing: 0.02em;
+  }
+
+  .pkg-saving strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* Package body */
+  .pkg-body {
+    padding: 22px 36px 28px 44px;
+  }
+
+  .pkg-includes-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.38em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .pkg-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 5px 32px;
+  }
+
+  .pkg-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.93rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+    padding: 3px 0;
+  }
+
+  .pkg-item .dot {
+    width: 4px; height: 4px;
+    background: var(--gold-dim);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .featured .pkg-item .dot { background: var(--gold); }
+  .royal    .pkg-item .dot { background: var(--gold-light); }
+
+  .pkg-item.new-item { color: var(--off-white); }
+  .pkg-item.carried  { color: var(--text-muted); }
+
+  .pkg-item.highlight-item {
+    color: var(--gold-pale);
+    font-weight: 400;
+  }
+  .pkg-item.highlight-item .dot {
+    background: var(--gold-pale);
+  }
+
+  /* ── STANDARD PRICING TABLE ── */
+  .section-standard {
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .std-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .std-item {
+    background: var(--black-mid);
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+  }
+  .std-item:hover { background: rgba(201,168,76,0.04); }
+
+  .std-name {
+    font-size: 0.97rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--off-white);
+  }
+  .std-note {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .std-price {
+    color: var(--gold-light);
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .std-note-box {
+    margin-top: 14px;
+    padding: 18px 22px;
+    border-left: 2px solid var(--gold-dim);
+    background: rgba(201,168,76,0.03);
+  }
+  .std-note-box p {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.75;
+    letter-spacing: 0.02em;
+  }
+  .std-note-box strong { color: var(--gold-light); font-style: normal; font-weight: 500; }
+
+  /* ── ADD-ONS ── */
+  .section-addons {
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .addon-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+  }
+
+  .price-table { width: 100%; border-collapse: collapse; }
+  .price-table tr { border-bottom: 1px solid rgba(201,168,76,0.1); transition: background 0.2s; }
+  .price-table tr:last-child { border-bottom: none; }
+  .price-table tr:hover { background: rgba(201,168,76,0.03); }
+  .price-table td {
+    padding: 13px 6px;
+    font-size: 0.93rem;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    color: var(--off-white);
+    line-height: 1.4;
+  }
+  .price-table td:last-child {
+    text-align: right;
+    color: var(--gold-light);
+    font-weight: 400;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .item-note {
+    display: block;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* ── RESERVATION ── */
+  .section-reservation {
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .advance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.1);
+    margin-bottom: 20px;
+  }
+
+  .advance-item {
+    background: var(--black-mid);
+    padding: 18px 20px;
+    text-align: center;
+  }
+  .advance-type {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--off-white);
+    letter-spacing: 0.04em;
+    margin-bottom: 7px;
+  }
+  .advance-amount {
+    font-size: 1.05rem;
+    color: var(--gold-light);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+  }
+
+  .policy-note {
+    padding: 22px 26px;
+    border: 1px solid rgba(201,168,76,0.14);
+    background: rgba(0,0,0,0.25);
+  }
+  .policy-note p {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+  .policy-note p + p { margin-top: 10px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding-top: 50px;
+    border-top: 1px solid rgba(201,168,76,0.14);
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.38em;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .footer-contact {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    line-height: 2.1;
+  }
+  .footer-tagline {
+    margin-top: 22px;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(201,168,76,0.35);
+    letter-spacing: 0.06em;
+    font-weight: 300;
+  }
+
+  @media (max-width: 620px) {
+    .page { padding: 36px 20px 60px; }
+    .ornament-frame { padding: 28px 18px; }
+    .pkg-top { grid-template-columns: 1fr; }
+    .pkg-pricing { text-align: left; }
+    .pkg-top, .pkg-body { padding-left: 28px; }
+    .addon-cols { grid-template-columns: 1fr; }
+    .pkg-items { grid-template-columns: 1fr; }
+  }
+
+  /* ── ENHANCE TOGGLES ── */
+  .enhance-section {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .enhance-toggle {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .enhance-toggle:last-child { border-bottom: none; }
+  .enhance-toggle:hover { background: rgba(201,168,76,0.03); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+
+  .enhance-left { flex: 1; }
+
+  .enhance-name {
+    font-size: 0.93rem;
+    font-weight: 400;
+    color: var(--gold-pale);
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .enhance-price-tag {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .enhance-desc {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 4px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+
+  .enhance-desc.saving {
+    color: var(--gold-dim);
+  }
+
+  /* Checkbox toggle */
+  .toggle-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.25);
+    position: relative;
+    transition: all 0.3s;
+    margin-top: 2px;
+  }
+
+  .toggle-btn::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: all 0.3s;
+  }
+
+  .enhance-toggle.active .toggle-btn {
+    background: rgba(201,168,76,0.3);
+    border-color: var(--gold);
+  }
+
+  .enhance-toggle.active .toggle-btn::after {
+    left: 23px;
+    background: var(--gold-light);
+  }
+
+  .enhance-toggle.active .enhance-name {
+    color: var(--gold-light);
+  }
+
+  /* Live price display */
+  .pkg1-price-wrap {
+    position: relative;
+  }
+
+  .pkg1-total {
+    transition: all 0.3s ease;
+  }
+
+  .pkg1-breakdown {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 6px;
+    letter-spacing: 0.02em;
+    min-height: 18px;
+    text-align: right;
+    transition: all 0.3s;
+  }
+
+  @keyframes priceFlash {
+    0%   { opacity: 0; transform: translateY(-4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .price-updated {
+    animation: priceFlash 0.3s ease both;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="ornament-frame">
+  <div class="inner-ornament">
+  <header class="header">
+    <div class="brand-name">BISO BY DINUSHI</div>
+    <div class="brand-sub">Dinushi Fernando &nbsp;·&nbsp; Bridal Styling & Direction</div>
+    <div class="header-rule">
+      <span></span><div class="diamond"></div><span></span>
+    </div>
+    <div class="doc-title">Bridal Investment Guide</div>
+  </header>
+  </div>
+  </div>
+
+  <!-- PACKAGES -->
+  <div class="section-label" style="animation: fadeUp 0.8s ease 0.1s both;">Bridal Packages</div>
+
+  <div class="packages">
+
+    <!-- PACKAGE 1 -->
+    <div class="pkg">
+      <div class="pkg-top">
+        <div class="pkg-identity">
+          <div class="pkg-num">Package 01</div>
+          <div class="pkg-name">The Biso</div>
+          <div class="pkg-tagline">Your wedding day, beautifully directed.</div>
+          <div class="pkg-occasions">
+            <div class="occ-chip" id="chip-wedding">Wedding Day</div>
+            <div class="occ-chip" id="chip-journey" style="display:none; border-color:rgba(201,168,76,0.35); color:var(--gold-light);">+ The Journey</div>
+            <div class="occ-chip" id="chip-homecoming" style="display:none; border-color:rgba(201,168,76,0.35); color:var(--gold-light);">+ Homecoming</div>
+          </div>
+        </div>
+        <div class="pkg-pricing pkg1-price-wrap">
+          <div class="pkg-price-label">Investment</div>
+          <div class="pkg-price pkg1-total" id="pkg1-price">Rs 125,000</div>
+          <div class="pkg1-breakdown" id="pkg1-breakdown"></div>
+        </div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-includes-label">Includes</div>
+        <div class="pkg-items">
+          <div class="pkg-item new-item"><div class="dot"></div>Bridal makeup artistry</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Bridal hair styling</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Dressing & draping</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Bridal consultation session</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Bridal trial session</div>
+        </div>
+
+        <div class="enhance-section">
+          <div class="pkg-includes-label">Enhance Your Package</div>
+
+          <div class="enhance-toggle" id="toggle-journey" onclick="toggleEnhance('journey')">
+            <div class="enhance-left">
+              <div class="enhance-name">
+                Add The Journey &nbsp;<span class="enhance-price-tag">+ Rs 40,000</span>
+              </div>
+              <div class="enhance-desc">Multiple consultations · complete styling direction · accessory & jewelry guidance · face-shape & skin-tone analysis · skin & hair prep plan · WhatsApp support 60 days prior</div>
+            </div>
+            <div class="toggle-btn" id="btn-journey"></div>
+          </div>
+
+          <div class="enhance-toggle" id="toggle-homecoming" onclick="toggleEnhance('homecoming')">
+            <div class="enhance-left">
+              <div class="enhance-name">
+                Add Homecoming &nbsp;<span class="enhance-price-tag">+ Rs 95,000</span>
+              </div>
+              <div class="enhance-desc saving">Package rate Rs 95,000 — standard standalone rate Rs 125,000 · you save Rs 30,000</div>
+            </div>
+            <div class="toggle-btn" id="btn-homecoming"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PACKAGE 2 -->
+    <div class="pkg featured">
+      <div class="pkg-top">
+        <div class="pkg-identity">
+          <div class="pkg-badge">Most Chosen</div>
+          <div class="pkg-num">Package 02</div>
+          <div class="pkg-name">The Biso Signature</div>
+          <div class="pkg-tagline">Your wedding journey, from ceremony to homecoming.</div>
+          <div class="pkg-occasions">
+            <div class="occ-chip">Wedding Day</div>
+            <div class="occ-chip">Homecoming</div>
+            <div class="occ-chip">1 Bridesmaid</div>
+          </div>
+        </div>
+        <div class="pkg-pricing">
+          <div class="pkg-price-label">Investment</div>
+          <div class="pkg-price">Rs 293,000</div>
+          <div class="pkg-saving">Standard value Rs 328,000 &nbsp;·&nbsp; <strong>Save Rs 35,000</strong></div>
+        </div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-includes-label">Everything in The Biso, plus</div>
+        <div class="pkg-items">
+          <div class="pkg-item carried"><div class="dot"></div>Bridal makeup artistry</div>
+          <div class="pkg-item carried"><div class="dot"></div>Bridal hair styling</div>
+          <div class="pkg-item carried"><div class="dot"></div>Dressing & draping</div>
+          <div class="pkg-item carried"><div class="dot"></div>Bridal trial session</div>
+          <div class="pkg-item highlight-item"><div class="dot"></div>Homecoming styling</div>
+          <div class="pkg-item highlight-item"><div class="dot"></div>1 bridesmaid styling · Rs 32,000</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Multiple consultation sessions</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Complete bridal styling direction</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Saree, gown & accessory planning</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Jewelry coordination guidance</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Face-shape & skin-tone analysis</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Skin & hair preparation plan</div>
+          <div class="pkg-item new-item"><div class="dot"></div>Priority scheduling</div>
+          <div class="pkg-item new-item"><div class="dot"></div>WhatsApp support · 60 days prior</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PACKAGE 3 -->
+    <div class="pkg royal">
+      <div class="pkg-top">
+        <div class="pkg-identity">
+          <div class="pkg-num">Package 03</div>
+          <div class="pkg-name">The Biso Atelier</div>
+          <div class="pkg-tagline">Your complete bridal journey, every moment accounted for.</div>
+          <div class="pkg-occasions">
+            <div class="occ-chip">Wedding Day</div>
+            <div class="occ-chip">Homecoming</div>
+            <div class="occ-chip">2 Bridesmaids</div>
+            <div class="occ-chip">Going Away</div>
+          </div>
+        </div>
+        <div class="pkg-pricing">
+          <div class="pkg-price-label">Investment</div>
+          <div class="pkg-price">Rs 371,000</div>
+          <div class="pkg-saving">Standard value Rs 431,000 &nbsp;·&nbsp; <strong>Save Rs 60,000</strong></div>
+        </div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-includes-label">Everything in The Biso Signature, plus</div>
+        <div class="pkg-items">
+          <div class="pkg-item carried"><div class="dot"></div>Wedding day styling</div>
+          <div class="pkg-item carried"><div class="dot"></div>Homecoming styling</div>
+          <div class="pkg-item carried"><div class="dot"></div>1 bridesmaid styling</div>
+          <div class="pkg-item carried"><div class="dot"></div>Full consultation journey</div>
+          <div class="pkg-item highlight-item"><div class="dot"></div>2nd bridesmaid styling · Rs 30,000</div>
+          <div class="pkg-item highlight-item"><div class="dot"></div>Going away look change</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /packages -->
+
+  <!-- STANDARD PRICING -->
+  <div class="section-standard">
+    <div class="section-label">Standard Add-On Occasions</div>
+    <div class="std-grid">
+      <div class="std-item">
+        <div>
+          <div class="std-name">The Engagement</div>
+          <div class="std-note">Hair, makeup & styling</div>
+        </div>
+        <div class="std-price">From Rs 65,000</div>
+      </div>
+      <div class="std-item">
+        <div>
+          <div class="std-name">Going Away</div>
+          <div class="std-note">Hair, makeup & styling</div>
+        </div>
+        <div class="std-price">From Rs 65,000</div>
+      </div>
+      <div class="std-item">
+        <div>
+          <div class="std-name">Homecoming — Standalone</div>
+          <div class="std-note">Booked separately</div>
+        </div>
+        <div class="std-price">Rs 125,000</div>
+      </div>
+      <div class="std-item">
+        <div>
+          <div class="std-name">Bridesmaid Styling</div>
+          <div class="std-note">Per bridesmaid · standard rate</div>
+        </div>
+        <div class="std-price">Rs 38,000</div>
+      </div>
+      <div class="std-item">
+        <div>
+          <div class="std-name">Destination Wedding</div>
+          <div class="std-note">Travel, accommodation & extended styling</div>
+        </div>
+        <div class="std-price">By Proposal</div>
+      </div>
+    </div>
+    <div class="std-note-box">
+      <p>Bridesmaid styling is included at a <strong>preferred rate of Rs 32,000</strong> in Package 02 and <strong>Rs 30,000</strong> in Package 03 — exclusively for package brides. The homecoming preferred rate of <strong>Rs 95,000</strong> applies within Package 02 and 03. Standalone homecoming bookings remain at Rs 125,000.</p>
+    </div>
+  </div>
+
+  <!-- ADD-ONS -->
+  <div class="section-addons">
+
+    <!-- JEWELLERY -->
+    <div class="section-label">Jewellery</div>
+    <table class="price-table" style="margin-bottom: 44px;">
+      <tbody>
+        <tr>
+          <td>Kandyan Jewellery<span class="item-note">For the bride</span></td>
+          <td>From Rs 20,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- BOUQUETS -->
+    <div class="section-label">Bouquets</div>
+    <table class="price-table" style="margin-bottom: 44px;">
+      <tbody>
+        <tr>
+          <td>Fresh Bridal Bouquet<span class="item-note">Custom designed</span></td>
+          <td>From Rs 25,000</td>
+        </tr>
+        <tr>
+          <td>Fresh Bridesmaid Bouquets<span class="item-note">Per bouquet</span></td>
+          <td>From Rs 12,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- TAILORING -->
+    <div class="section-label">Tailoring Charges</div>
+    <div class="addon-cols" style="margin-bottom: 44px;">
+      <div>
+        <table class="price-table">
+          <tbody>
+            <tr>
+              <td>Kandyan Saree — Bride</td>
+              <td>From Rs 45,000</td>
+            </tr>
+            <tr>
+              <td>Kandyan Saree — Bridesmaids<span class="item-note">Per bridesmaid</span></td>
+              <td>From Rs 25,000</td>
+            </tr>
+            <tr>
+              <td>Indian Saree — Bride</td>
+              <td>From Rs 35,000</td>
+            </tr>
+            <tr>
+              <td>Indian Saree — Bridesmaids<span class="item-note">Per bridesmaid</span></td>
+              <td>From Rs 25,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <table class="price-table">
+          <tbody>
+            <tr>
+              <td>Lehenga — Bride</td>
+              <td>From Rs 35,000</td>
+            </tr>
+            <tr>
+              <td>Western Frock — Bride</td>
+              <td>From Rs 65,000</td>
+            </tr>
+            <tr>
+              <td>Western Frock — Bridesmaids<span class="item-note">Per bridesmaid</span></td>
+              <td>From Rs 18,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ON-DAY SERVICES -->
+    <div class="section-label">On-Day Services</div>
+    <table class="price-table">
+      <tbody>
+        <tr>
+          <td>Personal Touch-Up<span class="item-note">Stylist available for touch-ups during the event</span></td>
+          <td>Rs 10,000</td>
+        </tr>
+        <tr>
+          <td>Venue Touch-Up Standby<span class="item-note">Full team on standby at your venue</span></td>
+          <td>Rs 20,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.78rem; color:var(--text-dim); font-style:italic; margin-top:16px; letter-spacing:0.03em;">Jewellery, bouquets, and tailoring are coordinated through our trusted vendor network and invoiced separately.</p>
+  </div>
+
+  <!-- DATE RESERVATION -->
+  <div class="section-reservation">
+    <div class="section-label">Date Reservation</div>
+    <div class="advance-grid">
+      <div class="advance-item">
+        <div class="advance-type">Package 01</div>
+        <div class="advance-amount">Rs 50,000</div>
+      </div>
+      <div class="advance-item">
+        <div class="advance-type">Package 02</div>
+        <div class="advance-amount">Rs 80,000</div>
+      </div>
+      <div class="advance-item">
+        <div class="advance-type">Package 03</div>
+        <div class="advance-amount">Rs 100,000</div>
+      </div>
+      <div class="advance-item">
+        <div class="advance-type">Destination Wedding</div>
+        <div class="advance-amount">Rs 75,000</div>
+      </div>
+      <div class="advance-item">
+        <div class="advance-type">Engagement Only</div>
+        <div class="advance-amount">Rs 25,000</div>
+      </div>
+    </div>
+    <div class="policy-note">
+      <p>To reserve your date exclusively with Biso, a non-refundable advance is required. As we accept a limited number of bridal bookings each month, your advance ensures our complete focus is dedicated entirely to you and your vision.</p>
+      <p>Destination weddings are quoted individually to include travel, accommodation, and extended styling time. Contact us to receive your personalised proposal.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">BISO BY DINUSHI</div>
+    <div class="footer-contact">
+      dinufdox@gmail.com &nbsp;·&nbsp; 0707 550 221<br>
+      79 Negombo–Minuwangoda Rd, Negombo
+    </div>
+    <div class="footer-tagline">Every queen deserves to be seen.</div>
+  </footer>
+
+</div>
+<script>
+  const BASE = 125000;
+  const JOURNEY = 40000;
+  const HOMECOMING = 95000;
+
+  const state = { journey: false, homecoming: false };
+
+  function formatPrice(n) {
+    return 'Rs ' + n.toLocaleString('en-US');
+  }
+
+  function toggleEnhance(type) {
+    state[type] = !state[type];
+
+    const toggle = document.getElementById('toggle-' + type);
+    toggle.classList.toggle('active', state[type]);
+
+    // Update occasion chips
+    document.getElementById('chip-journey').style.display = state.journey ? 'inline-block' : 'none';
+    document.getElementById('chip-homecoming').style.display = state.homecoming ? 'inline-block' : 'none';
+
+    // Calculate total
+    let total = BASE;
+    let parts = ['Rs 125,000 wedding'];
+    if (state.journey)    { total += JOURNEY;    parts.push('Rs 40,000 journey'); }
+    if (state.homecoming) { total += HOMECOMING; parts.push('Rs 95,000 homecoming'); }
+
+    // Update price display
+    const priceEl = document.getElementById('pkg1-price');
+    const breakdownEl = document.getElementById('pkg1-breakdown');
+
+    priceEl.textContent = formatPrice(total);
+    priceEl.classList.remove('price-updated');
+    void priceEl.offsetWidth; // force reflow
+    priceEl.classList.add('price-updated');
+
+    if (parts.length > 1) {
+      breakdownEl.textContent = parts.join(' + ');
+    } else {
+      breakdownEl.textContent = '';
+    }
+  }
+</script>
+</body>
+</html>
