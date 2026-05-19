@@ -594,15 +594,14 @@
 </div>
 
 <script>
-  // ── STATE ──
-  const d = {
-    theme:'', hcTheme:'', journey:false, homecoming:false,
-    goingaway:false, bridesmaids:0, flowergirls:0, littlemaids:0,
+  var d = {
+    theme:'', hcTheme:'', journey:null, homecoming:null, goingaway:null,
+    bridesmaids:0, flowergirls:0, littlemaids:0,
     addons:[], otherService:'', otherPrice:0,
-    name:'', phone:'', date:''
+    _total:0, _lines:[]
   };
 
-  const PRICE = {
+  var PRICE = {
     base:125000, journey:40000, hc:95000, hcStd:125000,
     bm:38000, bmHc:32000, fg:8000, lm:10000,
     ga:65000, gaDisc:47000,
@@ -610,106 +609,63 @@
     jewellery:20000, bouquet:25000, tailoring:35000
   };
 
-  let checked = false, otherChecked = false;
-  let currentStep = 1;
+  var checked = false, otherChecked = false;
 
-  // ── NAVIGATION ──
+  function fmt(n) { return 'Rs ' + n.toLocaleString('en-US'); }
+
   function showStep(id) {
-    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
-    const el = document.getElementById('step' + id);
-    if (el) { el.classList.add('active'); }
+    document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
+    var el = document.getElementById('step' + id);
+    if (el) el.classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
+  function updateProgress(step) {
+    var map = {1:1,2:2,'3a':3,'3b':3,4:4,5:5,6:6,7:7,8:8,contact:8};
+    var n = map[step] || step;
+    document.getElementById('progressFill').style.width = (n/8*100) + '%';
+    document.getElementById('progressLabel').textContent = 'Step ' + n + ' of 8';
+  }
+
   function nextStep(to) {
-    if (to === 8) buildSummary();
-    if (to === 'contact') { buildOtherInvoice(); buildOtherSummary(); }
-    if (to === 5) refreshHomecomingPage();
-    const id = to === 'contact' ? 'Contact' : to;
-    showStep(id);
-    updateProgress(to);
-  }
-
-  function buildSummary() {
-    const discountsApply = d.homecoming && d.journey;
-    const bmRate = discountsApply ? PRICE.bmHc : PRICE.bm;
-    const hcAmt = discountsApply ? PRICE.hc : PRICE.hcStd;
-    const gaDisc = discountsApply && d.bridesmaids >= 2;
-    const gaAmt = gaDisc ? PRICE.gaDisc : PRICE.ga;
-
-    const addonNames = {touchup:'Personal Touch-Up', venuestandby:'Venue Standby', jewellery:'Kandyan Jewellery', bouquet:'Fresh Bouquet', tailoring:'Tailoring'};
-    const addonPrices = {touchup:PRICE.touchup, venuestandby:PRICE.venuestandby, jewellery:PRICE.jewellery, bouquet:PRICE.bouquet, tailoring:PRICE.tailoring};
-
-    let rows = [];
-    rows.push({ label: d.theme + ' Bridal', val: 'Rs 125,000' });
-    if (d.journey) rows.push({ label: 'The Journey', val: '+ Rs 40,000' });
-    if (d.homecoming) rows.push({ label: 'Homecoming' + (d.hcTheme ? ' (' + d.hcTheme + ')' : ''), val: 'Rs ' + hcAmt.toLocaleString('en-US') });
-    if (d.bridesmaids > 0) rows.push({ label: 'Bridesmaids ×' + d.bridesmaids, val: 'Rs ' + (d.bridesmaids * bmRate).toLocaleString('en-US') });
-    if (d.flowergirls > 0) rows.push({ label: 'Flower Girls ×' + d.flowergirls, val: 'Rs ' + (d.flowergirls * PRICE.fg).toLocaleString('en-US') });
-    if (d.littlemaids > 0) rows.push({ label: 'Little Maids ×' + d.littlemaids, val: 'Rs ' + (d.littlemaids * PRICE.lm).toLocaleString('en-US') });
-    if (d.goingaway === true) rows.push({ label: 'Going Away', val: 'Rs ' + gaAmt.toLocaleString('en-US') });
-    d.addons.forEach(a => {
-      if (addonPrices[a] !== undefined) {
-        rows.push({ label: addonNames[a] || a, val: 'Rs ' + addonPrices[a].toLocaleString('en-US') });
-      }
-    });
-
-    document.getElementById('selectionSummary').innerHTML = rows.map(r =>
-      `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,168,76,0.07);font-size:0.88rem;font-weight:300;">
-        <span style="color:var(--off-white);">${r.label}</span>
-        <span style="color:var(--gold-light);">${r.val}</span>
-      </div>`
-    ).join('') + `<div style="display:flex;justify-content:space-between;padding:10px 0 2px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;">
-      <span style="color:var(--gold);">TOTAL ESTIMATE</span>
-      <span style="color:var(--gold-pale);font-size:1rem;">Rs ${d._total.toLocaleString('en-US')}</span>
-    </div>`;
-  }
-
-  function buildOtherSummary() {
-    document.getElementById('otherSummary').innerHTML =
-      `<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.9rem;font-weight:300;">
-        <span style="color:var(--off-white);">${d.otherService}</span>
-        <span style="color:var(--gold-light);">Rs ${d.otherPrice.toLocaleString('en-US')}</span>
-      </div>`;
+    try {
+      if (to === 5) refreshHomecomingPage();
+      if (to === 8) buildSummary();
+      if (to === 'contact') { buildOtherSummary(); }
+      var id = to === 'contact' ? 'Contact' : to;
+      showStep(id);
+      updateProgress(to);
+    } catch(e) {
+      console.error('nextStep error:', e);
+      alert('Something went wrong. Please try again.');
+    }
   }
 
   function prevStep(to) {
-    const id = to === '3a' ? '3a' : to === '3b' ? '3b' : to;
+    var id = (to === '3a' || to === '3b') ? to : to;
     showStep(id);
     updateProgress(to);
   }
 
-  function updateProgress(step) {
-    const map = {1:1, 2:2, '3a':3, '3b':3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:8, contact:8};
-    const total = 8;
-    const n = map[step] || step;
-    const pct = (n / total) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent = 'Step ' + n + ' of ' + total;
-  }
-
-  // ── THEME ──
   function selectTheme(el, val) {
-    document.querySelectorAll('#step2 .option-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#step2 .option-card').forEach(function(c){ c.classList.remove('selected'); });
     el.classList.add('selected');
     d.theme = val;
     document.getElementById('btnStep2').disabled = false;
   }
 
   function handleThemeNext() {
-    if (d.theme === 'Other') { nextStep('3b'); updateProgress('3b'); }
-    else { nextStep('3a'); updateProgress('3a'); }
+    if (d.theme === 'Other') { nextStep('3b'); }
+    else { nextStep('3a'); }
   }
 
-  // ── HC THEME ──
   function selectHcTheme(el, val) {
-    document.querySelectorAll('#hc-theme-wrap .option-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#hc-theme-wrap .option-card').forEach(function(c){ c.classList.remove('selected'); });
     el.classList.add('selected');
     d.hcTheme = val;
     document.getElementById('btnStep5').disabled = false;
   }
 
-  // ── JOURNEY ──
   function selectJourney(val) {
     d.journey = val;
     document.getElementById('yn-journey-yes').classList.toggle('selected', val);
@@ -717,24 +673,42 @@
     document.getElementById('btnStep4').disabled = false;
   }
 
-  // ── HOMECOMING ──
+  function refreshHomecomingPage() {
+    var priceEl = document.getElementById('hcYesPrice');
+    var hcDisc = document.getElementById('hcDiscountNote');
+    var bmNote = document.getElementById('bmDiscountNote');
+    if (d.journey) {
+      priceEl.innerHTML = '<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;">Rs 125,000</span>Rs 95,000';
+    } else {
+      priceEl.textContent = 'Rs 125,000';
+    }
+    if (hcDisc) hcDisc.style.display = 'none';
+    if (bmNote) bmNote.style.display = 'none';
+    document.getElementById('yn-hc-yes').classList.remove('selected');
+    document.getElementById('yn-hc-no').classList.remove('selected');
+    document.getElementById('hc-theme-wrap').style.display = 'none';
+    document.getElementById('btnStep5').disabled = true;
+    d.homecoming = null;
+    d.hcTheme = '';
+  }
+
   function selectHomecoming(val) {
     d.homecoming = val;
     document.getElementById('yn-hc-yes').classList.toggle('selected', val);
     document.getElementById('yn-hc-no').classList.toggle('selected', !val);
-    const wrap = document.getElementById('hc-theme-wrap');
-    const discountsApply = val && d.journey;
-    const bmNote = document.getElementById('bmDiscountNote');
-    const hcDisc = document.getElementById('hcDiscountNote');
+    var wrap = document.getElementById('hc-theme-wrap');
+    var discountsApply = val && d.journey;
+    var bmNote = document.getElementById('bmDiscountNote');
+    var hcDisc = document.getElementById('hcDiscountNote');
     if (val) {
       wrap.style.display = 'block';
-      bmNote.style.display = discountsApply ? 'block' : 'none';
-      hcDisc.style.display = discountsApply ? 'block' : 'none';
+      if (bmNote) bmNote.style.display = discountsApply ? 'block' : 'none';
+      if (hcDisc) hcDisc.style.display = discountsApply ? 'block' : 'none';
       document.getElementById('btnStep5').disabled = true;
     } else {
       wrap.style.display = 'none';
-      bmNote.style.display = 'none';
-      hcDisc.style.display = 'none';
+      if (bmNote) bmNote.style.display = 'none';
+      if (hcDisc) hcDisc.style.display = 'none';
       d.hcTheme = '';
       document.getElementById('btnStep5').disabled = false;
     }
@@ -742,50 +716,36 @@
     updateGoingAwayPrice();
   }
 
-  function refreshHomecomingPage() {
-    const discountsApply = d.journey;
-    const priceEl = document.getElementById('hcYesPrice');
-    const hcDisc = document.getElementById('hcDiscountNote');
-    const bmNote = document.getElementById('bmDiscountNote');
-    if (discountsApply) {
-      priceEl.innerHTML = '<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;">Rs 125,000</span>Rs 95,000';
-      if (d.homecoming) { hcDisc.style.display = 'block'; bmNote.style.display = 'block'; }
-    } else {
-      priceEl.textContent = 'Rs 125,000';
-      hcDisc.style.display = 'none';
-      bmNote.style.display = 'none';
-    }
-  }
-
-  // ── COUNTERS ──
-  function changeCount(field, delta) {
-    d[field] = Math.max(0, d[field] + delta);
-    document.getElementById('val-' + field).textContent = d[field];
-    updateGoingAwayPrice();
-  }
-
   function updateBmNote() {
-    const note = document.getElementById('bmNote');
-    const pkgNote = document.getElementById('retinuePkgNote');
-    const discountsApply = d.homecoming && d.journey;
+    var note = document.getElementById('bmNote');
+    var pkgNote = document.getElementById('retinuePkgNote');
+    var discountsApply = d.homecoming && d.journey;
     if (discountsApply) {
-      note.innerHTML = '<span class="strikethrough">Rs 38,000</span> <span class="discounted">Rs 32,000 per bridesmaid</span> — package discount applied';
-      pkgNote.innerHTML = 'Bridal + Homecoming + 1 Bridesmaid is our <strong>Package 02 — The Biso Signature</strong>. Adding your retinue may bring you closer to a package that offers better value.';
+      if (note) note.innerHTML = '<span class="strikethrough">Rs 38,000</span> <span class="discounted">Rs 32,000 per bridesmaid</span>';
+      if (pkgNote) pkgNote.innerHTML = 'Bridal + Homecoming + 1 Bridesmaid is our <strong>Package 02</strong>. Adding your retinue may bring you closer to a package that offers better value.';
     } else {
-      note.textContent = 'Rs 38,000 per bridesmaid';
-      pkgNote.textContent = 'Adding bridesmaids, flower girls, or little maids to your package will be reflected in your estimate.';
+      if (note) note.textContent = 'Rs 38,000 per bridesmaid';
+      if (pkgNote) pkgNote.textContent = 'Adding bridesmaids, flower girls, or little maids will be reflected in your estimate.';
     }
   }
 
   function updateGoingAwayPrice() {
-    const el = document.getElementById('gaPrice');
-    const discountsApply = d.homecoming && d.journey;
-    const discGA = discountsApply && d.bridesmaids >= 2;
+    var el = document.getElementById('gaPrice');
+    if (!el) return;
+    var discountsApply = d.homecoming && d.journey;
+    var discGA = discountsApply && d.bridesmaids >= 2;
     if (discGA) {
       el.innerHTML = '<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;">Rs 65,000</span>Rs 47,000';
     } else {
       el.textContent = 'Rs 65,000';
     }
+  }
+
+  function changeCount(field, delta) {
+    d[field] = Math.max(0, d[field] + delta);
+    document.getElementById('val-' + field).textContent = d[field];
+    updateBmNote();
+    updateGoingAwayPrice();
   }
 
   function selectGoingAway(val) {
@@ -795,118 +755,90 @@
     document.getElementById('btnStep7').disabled = false;
   }
 
-  // ── ADDONS ──
   function toggleAddon(headerEl, id) {
-    const check = document.getElementById('chk-' + id);
-    const desc = document.getElementById('desc-' + id);
-    const exp = document.getElementById('exp-' + id);
-    const isChecked = check.classList.contains('checked');
-
-    // Toggle checkbox and selection
+    var check = document.getElementById('chk-' + id);
+    var desc = document.getElementById('desc-' + id);
+    var exp = document.getElementById('exp-' + id);
+    var isChecked = check.classList.contains('checked');
     check.classList.toggle('checked', !isChecked);
-    if (!isChecked) { if (!d.addons.includes(id)) d.addons.push(id); }
-    else { d.addons = d.addons.filter(a => a !== id); }
-
-    // Toggle description expand
-    const descVisible = desc.classList.contains('visible');
+    if (!isChecked) { if (d.addons.indexOf(id) === -1) d.addons.push(id); }
+    else { d.addons = d.addons.filter(function(a){ return a !== id; }); }
+    var descVisible = desc.classList.contains('visible');
     desc.classList.toggle('visible', !descVisible);
     exp.classList.toggle('open', !descVisible);
     exp.textContent = descVisible ? '+' : '×';
   }
 
-  function expandAddon(id) {
-    const desc = document.getElementById('desc-' + id);
-    const exp = document.getElementById('exp-' + id);
-    const descVisible = desc.classList.contains('visible');
-    desc.classList.toggle('visible', !descVisible);
-    exp.classList.toggle('open', !descVisible);
-    exp.textContent = descVisible ? '+' : '×';
-  }
-
-  // ── OTHER PATH ──
   function selectOther(el, name, priceStr, priceNum) {
-    document.querySelectorAll('#step3b .other-option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('#step3b .other-option').forEach(function(o){ o.classList.remove('selected'); });
     el.classList.add('selected');
     d.otherService = name;
     d.otherPrice = parseInt(priceNum);
     document.getElementById('btnOther').disabled = false;
   }
 
-  function buildOtherInvoice() {
-    document.getElementById('otherInvoiceDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    document.getElementById('otherInvoiceLines').innerHTML = `
-      <div class="invoice-line"><span class="item">${d.otherService}</span><span class="amt">Rs ${d.otherPrice.toLocaleString('en-US')}</span></div>`;
-    document.getElementById('otherInvoiceTotal').textContent = 'Rs ' + d.otherPrice.toLocaleString('en-US');
-  }
+  function buildSummary() {
+    var discountsApply = (d.homecoming === true) && (d.journey === true);
+    var bmRate = discountsApply ? PRICE.bmHc : PRICE.bm;
+    var hcAmt = discountsApply ? PRICE.hc : PRICE.hcStd;
+    var gaDisc = discountsApply && d.bridesmaids >= 2;
+    var gaAmt = gaDisc ? PRICE.gaDisc : PRICE.ga;
+    var addonNames = {touchup:'Personal Touch-Up', venuestandby:'Venue Standby', jewellery:'Kandyan Jewellery', bouquet:'Fresh Bouquet', tailoring:'Tailoring'};
+    var addonPrices = {touchup:PRICE.touchup, venuestandby:PRICE.venuestandby, jewellery:PRICE.jewellery, bouquet:PRICE.bouquet, tailoring:PRICE.tailoring};
 
-  // ── BUILD INVOICE ──
-  function buildInvoice() {
-    const lines = [];
-    let total = PRICE.base;
-    lines.push({item: d.theme + ' Bridal', amt: PRICE.base});
-
-    if (d.journey) { lines.push({item:'The Journey', amt:PRICE.journey}); total += PRICE.journey; }
-
-    const discountsApply = d.homecoming && d.journey;
-
-    if (d.homecoming) {
-      const hcAmt = discountsApply ? PRICE.hc : PRICE.hcStd;
-      const hcOrig = discountsApply ? PRICE.hcStd : null;
-      lines.push({item:'Homecoming (' + (d.hcTheme||'') + ')', amt:hcAmt, orig:hcOrig});
-      total += hcAmt;
-    }
-
-    const bmRate = discountsApply ? PRICE.bmHc : PRICE.bm;
-    const bmOrig = discountsApply ? PRICE.bm : null;
-    if (d.bridesmaids > 0) {
-      const bAmt = d.bridesmaids * bmRate;
-      lines.push({item:'Bridesmaids ×' + d.bridesmaids, amt:bAmt, origPerUnit: bmOrig, count: d.bridesmaids});
-      total += bAmt;
-    }
-    if (d.flowergirls > 0) { const a=d.flowergirls*PRICE.fg; lines.push({item:'Flower Girls ×'+d.flowergirls, amt:a}); total+=a; }
-    if (d.littlemaids > 0) { const a=d.littlemaids*PRICE.lm; lines.push({item:'Little Maids ×'+d.littlemaids, amt:a}); total+=a; }
-
-    const discGA = discountsApply && d.bridesmaids >= 2;
-    if (d.goingaway === true) {
-      const gaAmt = discGA ? PRICE.gaDisc : PRICE.ga;
-      const gaOrig = discGA ? PRICE.ga : null;
-      lines.push({item:'Going Away Look', amt:gaAmt, orig:gaOrig});
-      total += gaAmt;
-    }
-
-    // Addons
-    const addonPrices = {touchup:PRICE.touchup, venuestandby:PRICE.venuestandby, jewellery:PRICE.jewellery, bouquet:PRICE.bouquet, tailoring:PRICE.tailoring};
-    const addonNames = {touchup:'Personal Touch-Up', venuestandby:'Venue Touch-Up Standby', jewellery:'Kandyan Jewellery', bouquet:'Fresh Bridal Bouquet', tailoring:'Saree / Gown Tailoring'};
-    d.addons.forEach(a => {
-      lines.push({item:addonNames[a], amt:addonPrices[a], fromPrice:true});
-      total += addonPrices[a];
+    var rows = [];
+    var total = PRICE.base;
+    rows.push({label: d.theme + ' Bridal'});
+    if (d.journey === true) { rows.push({label:'The Journey'}); total += PRICE.journey; }
+    if (d.homecoming === true) { rows.push({label:'Homecoming' + (d.hcTheme ? ' ('+d.hcTheme+')':'')}); total += hcAmt; }
+    if (d.bridesmaids > 0) { var ba = d.bridesmaids * bmRate; rows.push({label:'Bridesmaids x'+d.bridesmaids}); total += ba; }
+    if (d.flowergirls > 0) { var fa = d.flowergirls * PRICE.fg; rows.push({label:'Flower Girls x'+d.flowergirls}); total += fa; }
+    if (d.littlemaids > 0) { var la = d.littlemaids * PRICE.lm; rows.push({label:'Little Maids x'+d.littlemaids}); total += la; }
+    if (d.goingaway === true) { rows.push({label:'Going Away'}); total += gaAmt; }
+    d.addons.forEach(function(a) {
+      if (addonPrices[a] !== undefined) {
+        rows.push({label: addonNames[a]||a});
+        total += addonPrices[a];
+      }
     });
 
-    document.getElementById('invoiceDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    d._total = total;
+    d._lines = [];
+    if (d.journey === true) d._lines.push({label:'The Journey', val: fmt(PRICE.journey)});
+    if (d.homecoming === true) d._lines.push({label:'Homecoming' + (d.hcTheme ? ' ('+d.hcTheme+')':''), val: fmt(hcAmt)});
+    if (d.bridesmaids > 0) d._lines.push({label:'Bridesmaids x'+d.bridesmaids, val: fmt(d.bridesmaids * bmRate)});
+    if (d.flowergirls > 0) d._lines.push({label:'Flower Girls x'+d.flowergirls, val: fmt(d.flowergirls * PRICE.fg)});
+    if (d.littlemaids > 0) d._lines.push({label:'Little Maids x'+d.littlemaids, val: fmt(d.littlemaids * PRICE.lm)});
+    if (d.goingaway === true) d._lines.push({label:'Going Away', val: fmt(gaAmt)});
+    d.addons.forEach(function(a) {
+      if (addonPrices[a] !== undefined) d._lines.push({label: addonNames[a]||a, val: fmt(addonPrices[a])});
+    });
 
-    document.getElementById('invoiceLines').innerHTML = lines.map(l => {
-      let amtHtml = '';
-      if (l.orig) amtHtml = `<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;font-size:0.78rem;">Rs ${l.orig.toLocaleString('en-US')}</span>`;
-      if (l.origPerUnit) amtHtml = `<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;font-size:0.78rem;">Rs ${(l.origPerUnit*l.count).toLocaleString('en-US')}</span>`;
-      amtHtml += (l.fromPrice ? 'From ' : '') + 'Rs ' + l.amt.toLocaleString('en-US');
-      return `<div class="invoice-line"><span class="item">${l.item}</span><span class="amt">${amtHtml}</span></div>`;
+    var html = rows.map(function(r) {
+      return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(201,168,76,0.07);font-size:0.9rem;font-weight:300;">'
+        + '<span style="width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;display:inline-block;"></span>'
+        + '<span style="color:var(--off-white);">' + r.label + '</span></div>';
     }).join('');
 
-    document.getElementById('invoiceTotal').textContent = 'Rs ' + total.toLocaleString('en-US');
-    d._total = total;
-    d._lines = lines;
+    document.getElementById('selectionSummary').innerHTML = html;
   }
 
-  // ── VALIDATION ──
+  function buildOtherSummary() {
+    document.getElementById('otherSummary').innerHTML =
+      '<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.9rem;font-weight:300;">'
+      + '<span style="color:var(--off-white);">' + d.otherService + '</span>'
+      + '<span style="color:var(--gold-light);">' + fmt(d.otherPrice) + '</span></div>';
+  }
+
   function validateContact() {
-    const name = document.getElementById('brideName').value.trim();
-    const phone = document.getElementById('phoneNumber').value.trim();
+    var name = document.getElementById('brideName').value.trim();
+    var phone = document.getElementById('phoneNumber').value.trim();
     document.getElementById('btnSend').disabled = !(name && phone.length >= 9 && checked);
   }
 
   function validateOtherContact() {
-    const name = document.getElementById('otherName').value.trim();
-    const phone = document.getElementById('otherPhone').value.trim();
+    var name = document.getElementById('otherName').value.trim();
+    var phone = document.getElementById('otherPhone').value.trim();
     document.getElementById('btnOtherSend').disabled = !(name && phone.length >= 9 && otherChecked);
   }
 
@@ -922,53 +854,52 @@
     validateOtherContact();
   }
 
-  // ── WHATSAPP ──
   function buildMessage() {
-    const name = document.getElementById('brideName').value.trim();
-    const phone = document.getElementById('phoneNumber').value.trim();
-    const wDate = document.getElementById('weddingDate').value;
-    let msg = `✨ *BISO BY DINUSHI — Bridal Enquiry*\n\n`;
-    msg += `*Bride:* ${name}\n`;
-    if (wDate) msg += `*Wedding Date:* ${new Date(wDate).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\n`;
-    msg += `*WhatsApp:* +94${phone}\n\n`;
-    msg += `*Bridal Theme:* ${d.theme}\n`;
-    msg += `*The Journey:* ${d.journey ? 'Yes' : 'No'}\n`;
-    msg += `*Homecoming:* ${d.homecoming ? 'Yes — ' + d.hcTheme : 'No'}\n`;
-    msg += `*Going Away:* ${d.goingaway ? 'Yes' : 'No'}\n`;
-    msg += `*Bridesmaids:* ${d.bridesmaids}\n`;
-    msg += `*Flower Girls:* ${d.flowergirls}\n`;
-    msg += `*Little Maids:* ${d.littlemaids}\n`;
-    if (d.addons.length) msg += `*Add-Ons:* ${d.addons.join(', ')}\n`;
-    msg += `\n📋 *Estimated Investment*\n`;
-    d._lines.forEach(l => { msg += `• ${l.item}: Rs ${l.amt.toLocaleString('en-US')}\n`; });
-    msg += `\n💰 *Total Estimate: Rs ${d._total.toLocaleString('en-US')}*\n\n`;
-    msg += `_This is an estimate. Final investment confirmed at consultation._`;
+    var name = document.getElementById('brideName').value.trim();
+    var phone = document.getElementById('phoneNumber').value.trim();
+    var wDate = document.getElementById('weddingDate').value;
+    var msg = '\u2728 *BISO BY DINUSHI \u2014 Bridal Enquiry*\n\n';
+    msg += '*Bride:* ' + name + '\n';
+    if (wDate) msg += '*Wedding Date:* ' + new Date(wDate).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) + '\n';
+    msg += '*WhatsApp:* +94' + phone + '\n\n';
+    msg += '*Theme:* ' + d.theme + '\n';
+    msg += '*The Journey:* ' + (d.journey ? 'Yes' : 'No') + '\n';
+    msg += '*Homecoming:* ' + (d.homecoming ? 'Yes' + (d.hcTheme ? ' \u2014 ' + d.hcTheme : '') : 'No') + '\n';
+    msg += '*Going Away:* ' + (d.goingaway === true ? 'Yes' : 'No') + '\n';
+    msg += '*Bridesmaids:* ' + d.bridesmaids + '\n';
+    msg += '*Flower Girls:* ' + d.flowergirls + '\n';
+    msg += '*Little Maids:* ' + d.littlemaids + '\n';
+    if (d.addons.length) msg += '*Add-Ons:* ' + d.addons.join(', ') + '\n';
+    msg += '\n\uD83D\uDCCB *Estimated Investment*\n';
+    d._lines.forEach(function(l){ msg += '\u2022 ' + l.label + ': ' + l.val + '\n'; });
+    msg += '\n\uD83D\uDCB0 *Total Estimate: ' + fmt(d._total) + '*\n\n';
+    msg += '_This is an estimate. Final investment confirmed at consultation._';
     return msg;
   }
 
   function sendToWhatsApp() {
-    const link = `https://wa.me/94707550221?text=${encodeURIComponent(buildMessage())}`;
+    var link = 'https://wa.me/94707550221?text=' + encodeURIComponent(buildMessage());
     document.getElementById('whatsappLink').href = link;
-    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('successScreen').style.display = 'block';
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
   function sendOtherToWhatsApp() {
-    const name = document.getElementById('otherName').value.trim();
-    const phone = document.getElementById('otherPhone').value.trim();
-    const date = document.getElementById('otherDate').value;
-    let msg = `✨ *BISO BY DINUSHI — Enquiry*\n\n`;
-    msg += `*Name:* ${name}\n`;
-    if (date) msg += `*Date:* ${new Date(date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\n`;
-    msg += `*WhatsApp:* +94${phone}\n\n`;
-    msg += `*Service:* ${d.otherService}\n`;
-    msg += `*Estimate:* Rs ${d.otherPrice.toLocaleString('en-US')}\n\n`;
-    msg += `_Sent via Biso by Dinushi enquiry form._`;
-    const link = `https://wa.me/94707550221?text=${encodeURIComponent(msg)}`;
+    var name = document.getElementById('otherName').value.trim();
+    var phone = document.getElementById('otherPhone').value.trim();
+    var date = document.getElementById('otherDate').value;
+    var msg = '\u2728 *BISO BY DINUSHI \u2014 Enquiry*\n\n';
+    msg += '*Name:* ' + name + '\n';
+    if (date) msg += '*Date:* ' + new Date(date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) + '\n';
+    msg += '*WhatsApp:* +94' + phone + '\n\n';
+    msg += '*Service:* ' + d.otherService + '\n';
+    msg += '*Estimate:* ' + fmt(d.otherPrice) + '\n\n';
+    msg += '_Sent via Biso by Dinushi enquiry form._';
+    var link = 'https://wa.me/94707550221?text=' + encodeURIComponent(msg);
     document.getElementById('whatsappLink').href = link;
-    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('successScreen').style.display = 'block';
     window.scrollTo({top:0, behavior:'smooth'});
