@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biso by Dinushi — Begin Your Bridal Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C96A; --gold-pale: #F5E6B8;
+    --gold-dim: #8B6914; --black: #080808; --black-mid: #121212;
+    --black-card: #181818; --off-white: #F7F0E0; --text-muted: #A08B5A;
+    --text-dim: #6B5A35; --green: #25D366; --red: #c0392b;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+  @keyframes slideIn { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
+  @keyframes checkPop { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+  html, body { background-color: var(--black) !important; color-scheme: dark; font-family: 'Cormorant Garamond', serif; color: var(--off-white); min-height: 100vh; overflow-x: hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
+
+  .app { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:32px 16px 60px; }
+
+  /* HEADER */
+  .site-header { text-align:center; margin-bottom:28px; animation:fadeUp 0.8s ease both; }
+  .brand { font-family:'Cinzel',serif; font-size:clamp(1.3rem,4vw,1.9rem); font-weight:600; letter-spacing:0.25em; background:linear-gradient(90deg,var(--gold-dim),var(--gold-light),var(--gold-pale),var(--gold-light),var(--gold-dim)); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 5s linear infinite; }
+  .tagline { font-size:0.78rem; letter-spacing:0.3em; color:var(--text-muted); text-transform:uppercase; margin-top:5px; }
+  .header-rule { display:flex; align-items:center; gap:12px; margin:12px auto 0; max-width:280px; }
+  .header-rule span { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  .diamond { width:4px; height:4px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+
+  /* PROGRESS */
+  .progress-wrap { width:100%; max-width:560px; margin-bottom:24px; animation:fadeUp 0.8s ease 0.1s both; }
+  .progress-bar { height:3px; background:rgba(201,168,76,0.12); border-radius:2px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold-light)); border-radius:2px; transition:width 0.5s ease; }
+  .progress-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:0.38em; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px; }
+
+  /* FORM CARD */
+  .form-card { width:100%; max-width:560px; background:var(--black-card); border:1px solid rgba(201,168,76,0.2); padding:32px 28px 28px; position:relative; animation:fadeUp 0.8s ease 0.2s both; }
+  .form-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold-light),var(--gold),var(--gold-light),transparent); }
+
+  /* STEP PANELS */
+  .step-panel { display:none; }
+  .step-panel.active { display:block; animation:slideIn 0.35s ease both; }
+
+  .step-eyebrow { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:0.44em; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
+  .step-title { font-family:'Cinzel',serif; font-size:clamp(1rem,3vw,1.35rem); font-weight:500; letter-spacing:0.08em; color:var(--off-white); margin-bottom:6px; line-height:1.3; }
+  .step-sub { font-size:0.9rem; font-style:italic; color:var(--text-muted); margin-bottom:24px; letter-spacing:0.02em; line-height:1.6; }
+
+  /* OPTION CARDS */
+  .options-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; margin-bottom:24px; }
+  .options-grid.two-col { grid-template-columns:1fr 1fr; }
+  .option-card { border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); padding:16px 12px; cursor:pointer; text-align:center; transition:all 0.2s; user-select:none; position:relative; }
+  .option-card:hover { border-color:rgba(201,168,76,0.4); background:rgba(201,168,76,0.05); }
+  .option-card.selected { border-color:var(--gold); background:rgba(201,168,76,0.1); }
+  .option-card.selected::after { content:'✓'; position:absolute; top:6px; right:8px; font-size:0.65rem; color:var(--gold-light); animation:checkPop 0.3s ease both; }
+  .option-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--off-white); line-height:1.4; }
+  .option-card.selected .option-label { color:var(--gold-light); }
+  .option-price { font-size:0.8rem; color:var(--gold-light); margin-top:5px; }
+  .option-note { font-size:0.72rem; color:var(--text-muted); font-style:italic; margin-top:3px; }
+
+  /* YES/NO TOGGLE */
+  .yn-wrap { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+  .yn-btn { border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); padding:18px; cursor:pointer; text-align:center; transition:all 0.2s; font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.2em; color:var(--off-white); text-transform:uppercase; }
+  .yn-btn:hover { border-color:rgba(201,168,76,0.4); background:rgba(201,168,76,0.05); }
+  .yn-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.1); color:var(--gold-light); }
+
+  /* INCLUDED LIST */
+  .included-list { margin-bottom:20px; }
+  .inc-section-title { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:10px; margin-top:16px; }
+  .inc-item { display:flex; align-items:flex-start; gap:10px; font-size:0.9rem; font-weight:300; color:var(--off-white); padding:5px 0; border-bottom:1px solid rgba(201,168,76,0.06); }
+  .inc-item:last-child { border-bottom:none; }
+  .inc-item .dot { width:4px; height:4px; background:var(--gold); border-radius:50%; flex-shrink:0; margin-top:7px; }
+  .inc-item.not { color:var(--text-muted); }
+  .inc-item.not .dot { background:var(--text-dim); }
+  .inc-item .cross { width:4px; height:4px; background:var(--red); border-radius:50%; flex-shrink:0; margin-top:7px; opacity:0.7; }
+
+  /* JOURNEY FEATURES */
+  .journey-features { background:rgba(201,168,76,0.05); border:1px solid rgba(201,168,76,0.15); padding:16px 18px; margin-bottom:16px; }
+  .journey-feat-item { font-size:0.88rem; font-weight:300; color:var(--off-white); padding:5px 0; display:flex; gap:10px; align-items:flex-start; }
+  .journey-feat-item .dot { width:4px; height:4px; background:var(--gold-light); border-radius:50%; flex-shrink:0; margin-top:7px; }
+  .journey-warning { background:rgba(201,168,76,0.08); border-left:3px solid var(--gold); padding:12px 16px; margin-bottom:20px; font-size:0.85rem; font-style:italic; color:var(--gold-pale); line-height:1.6; letter-spacing:0.02em; }
+
+  /* COUNTER */
+  .counter-row { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid rgba(201,168,76,0.1); }
+  .counter-row:last-child { border-bottom:none; }
+  .counter-label { font-size:0.95rem; font-weight:300; color:var(--off-white); letter-spacing:0.03em; }
+  .counter-note { font-size:0.72rem; color:var(--text-muted); font-style:italic; margin-top:2px; }
+  .counter-controls { display:flex; align-items:center; gap:14px; }
+  .counter-btn { width:30px; height:30px; border:1px solid rgba(201,168,76,0.3); background:transparent; color:var(--gold-light); font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .counter-btn:hover { background:rgba(201,168,76,0.1); border-color:var(--gold); }
+  .counter-val { font-family:'Cinzel',serif; font-size:0.95rem; color:var(--gold-light); min-width:18px; text-align:center; }
+  .strikethrough { text-decoration:line-through; color:var(--text-dim); font-size:0.8rem; margin-right:4px; }
+  .discounted { color:var(--gold-light); font-weight:400; }
+
+  /* ADDON */
+  .addon-item { border-bottom:1px solid rgba(201,168,76,0.08); }
+  .addon-item:last-child { border-bottom:none; }
+  .addon-header { display:flex; align-items:center; justify-content:space-between; padding:14px 0; cursor:pointer; gap:12px; }
+  .addon-left { display:flex; align-items:center; gap:12px; flex:1; }
+  .addon-check { width:20px; height:20px; border:1px solid rgba(201,168,76,0.3); background:transparent; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .addon-check.checked { background:rgba(201,168,76,0.2); border-color:var(--gold); }
+  .addon-check.checked::after { content:'✓'; font-size:0.65rem; color:var(--gold-light); }
+  .addon-name { font-size:0.92rem; font-weight:300; color:var(--off-white); letter-spacing:0.03em; }
+  .addon-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .addon-price-wrap { text-align:right; }
+  .addon-expand { font-size:0.75rem; color:var(--text-dim); transition:transform 0.2s; flex-shrink:0; }
+  .addon-expand.open { transform:rotate(45deg); color:var(--gold); }
+  .addon-desc { font-size:0.82rem; font-style:italic; color:var(--text-muted); line-height:1.65; padding:0 0 14px 32px; display:none; letter-spacing:0.02em; }
+  .addon-desc.visible { display:block; animation:fadeUp 0.2s ease both; }
+
+  /* PRICE TAG */
+  .price-tag { font-size:0.88rem; color:var(--gold-light); font-weight:400; white-space:nowrap; }
+  .price-orig { text-decoration:line-through; color:var(--text-dim); font-size:0.75rem; margin-right:3px; }
+
+  /* PACKAGE HIGHLIGHT */
+  .pkg-highlight { background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.18); padding:14px 18px; margin-bottom:18px; }
+  .pkg-highlight p { font-size:0.88rem; font-style:italic; color:var(--off-white); line-height:1.7; letter-spacing:0.02em; }
+  .pkg-highlight strong { color:var(--gold-light); font-style:normal; }
+  .pkg-link { display:inline-block; font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; text-decoration:none; border-bottom:1px solid rgba(201,168,76,0.3); padding-bottom:1px; margin-top:8px; transition:color 0.2s; }
+  .pkg-link:hover { color:var(--gold-light); }
+
+  /* INVOICE */
+  .invoice-preview { border:1px solid rgba(201,168,76,0.2); background:rgba(0,0,0,0.3); margin-bottom:24px; }
+  .invoice-header { padding:14px 18px; border-bottom:1px solid rgba(201,168,76,0.15); display:flex; justify-content:space-between; align-items:center; }
+  .invoice-title { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.35em; color:var(--gold); text-transform:uppercase; }
+  .invoice-date { font-size:0.75rem; color:var(--text-dim); font-style:italic; }
+  .invoice-line { display:flex; justify-content:space-between; padding:11px 18px; border-bottom:1px solid rgba(201,168,76,0.07); font-size:0.9rem; font-weight:300; }
+  .invoice-line:last-child { border-bottom:none; }
+  .invoice-line .item { color:var(--off-white); }
+  .invoice-line .amt { color:var(--gold-light); font-weight:400; }
+  .invoice-total { display:flex; justify-content:space-between; padding:14px 18px; border-top:1px solid rgba(201,168,76,0.2); background:rgba(201,168,76,0.05); }
+  .invoice-total .label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; align-self:center; }
+  .invoice-total .total-amt { font-size:1.2rem; color:var(--gold-pale); font-weight:400; letter-spacing:0.04em; }
+
+  /* INPUT */
+  .input-group { margin-bottom:18px; }
+  .input-label { font-family:'Cinzel',serif; font-size:0.56rem; letter-spacing:0.38em; color:var(--text-dim); text-transform:uppercase; margin-bottom:7px; display:block; }
+  .input-field { width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(201,168,76,0.2); color:var(--off-white); font-family:'Cormorant Garamond',serif; font-size:1rem; padding:11px 14px; outline:none; transition:border-color 0.2s; letter-spacing:0.03em; }
+  .input-field:focus { border-color:var(--gold); }
+  .input-field::placeholder { color:var(--text-dim); font-style:italic; }
+  .phone-wrap { display:flex; }
+  .phone-prefix { background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-right:none; padding:11px 12px; font-size:0.92rem; color:var(--text-muted); display:flex; align-items:center; white-space:nowrap; }
+  .checkbox-row { display:flex; align-items:flex-start; gap:12px; margin-bottom:22px; cursor:pointer; }
+  .checkbox-box { width:18px; height:18px; border:1px solid rgba(201,168,76,0.3); background:transparent; flex-shrink:0; margin-top:3px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .checkbox-box.checked { background:rgba(201,168,76,0.2); border-color:var(--gold); }
+  .checkbox-box.checked::after { content:'✓'; font-size:0.65rem; color:var(--gold-light); }
+  .checkbox-text { font-size:0.86rem; color:var(--text-muted); font-style:italic; line-height:1.6; }
+
+  /* BUTTONS */
+  .btn-primary { width:100%; padding:15px; background:linear-gradient(135deg,var(--gold-dim),var(--gold),var(--gold-dim)); background-size:200% auto; border:none; color:var(--black); font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; cursor:pointer; transition:all 0.3s; margin-top:8px; }
+  .btn-primary:hover { background-position:right center; }
+  .btn-primary:disabled { opacity:0.35; cursor:not-allowed; }
+  .btn-whatsapp { width:100%; padding:15px; background:var(--green); border:none; color:#fff; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; margin-top:8px; }
+  .btn-whatsapp:hover { opacity:0.9; }
+  .btn-back { background:none; border:none; color:var(--text-dim); font-family:'Cormorant Garamond',serif; font-size:0.85rem; letter-spacing:0.08em; cursor:pointer; padding:8px 0; display:flex; align-items:center; gap:6px; transition:color 0.2s; margin-bottom:18px; }
+  .btn-back:hover { color:var(--text-muted); }
+  .btn-secondary { width:100%; padding:13px; background:transparent; border:1px solid rgba(201,168,76,0.3); color:var(--gold-light); font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-top:8px; }
+  .btn-secondary:hover { background:rgba(201,168,76,0.06); border-color:var(--gold); }
+
+  /* SUCCESS */
+  .success-screen { display:none; text-align:center; padding:16px 0; animation:fadeUp 0.6s ease both; }
+  .success-icon { width:60px; height:60px; border:2px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:1.4rem; color:var(--gold-light); animation:checkPop 0.5s ease 0.3s both; }
+  .success-title { font-family:'Cinzel',serif; font-size:clamp(1rem,3vw,1.25rem); letter-spacing:0.1em; color:var(--gold-pale); margin-bottom:8px; }
+  .success-sub { font-size:0.92rem; font-style:italic; color:var(--text-muted); line-height:1.75; margin-bottom:24px; }
+
+  /* OTHER PATH */
+  .other-option { border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); padding:18px 16px; margin-bottom:10px; cursor:pointer; transition:all 0.2s; display:flex; justify-content:space-between; align-items:center; }
+  .other-option:hover { border-color:rgba(201,168,76,0.4); background:rgba(201,168,76,0.05); }
+  .other-option.selected { border-color:var(--gold); background:rgba(201,168,76,0.08); }
+  .other-opt-name { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--off-white); }
+  .other-option.selected .other-opt-name { color:var(--gold-light); }
+  .other-opt-price { font-size:0.9rem; color:var(--gold-light); font-weight:400; }
+
+  .site-footer { margin-top:28px; text-align:center; font-size:0.72rem; color:var(--text-dim); letter-spacing:0.08em; animation:fadeUp 0.8s ease 0.3s both; }
+
+  @media (max-width:480px) { .form-card { padding:24px 16px 20px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="site-header">
+    <div class="brand">BISO BY DINUSHI</div>
+    <div class="tagline">Bridal Styling & Direction</div>
+    <div class="header-rule"><span></span><div class="diamond"></div><span></span></div>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label" id="progressLabel">Step 1 of 8</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:12.5%"></div></div>
+  </div>
+
+  <div class="form-card" id="formCard">
+
+    <!-- STEP 1: WELCOME / PRICING INTRO -->
+    <div class="step-panel active" id="step1">
+      <div class="step-eyebrow">Welcome</div>
+      <div class="step-title">Every queen deserves a look made for her.</div>
+      <div class="step-sub">Tell us about your wedding and we'll build your personalised bridal investment estimate in minutes.</div>
+      <div style="border:1px solid rgba(201,168,76,0.2); background:rgba(201,168,76,0.05); padding:20px 18px; margin-bottom:24px;">
+        <div style="font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:10px;">Our Starting Investment</div>
+        <div style="font-size:clamp(1.6rem,5vw,2.2rem); color:var(--gold-pale); font-weight:400; letter-spacing:0.04em;">Rs 125,000</div>
+        <div style="font-size:0.85rem; font-style:italic; color:var(--text-muted); margin-top:6px; line-height:1.6;">All bridal packages — Kandyan, Indian, Western and Modern Kandyan — begin at the same investment. Your look is designed around you, not your theme.</div>
+      </div>
+      <button class="btn-primary" onclick="nextStep(2)">Begin My Bridal Journey</button>
+    </div>
+
+    <!-- STEP 2: THEME SELECTION -->
+    <div class="step-panel" id="step2">
+      <button class="btn-back" onclick="prevStep(1)">← Back</button>
+      <div class="step-eyebrow">Step 1 of 7</div>
+      <div class="step-title">What is your bridal theme?</div>
+      <div class="step-sub">Choose the style that speaks to your vision.</div>
+      <div class="options-grid two-col">
+        <div class="option-card" onclick="selectTheme(this,'Kandyan')">
+          <div class="option-label">Kandyan</div>
+          <div class="option-price">Rs 125,000</div>
+        </div>
+        <div class="option-card" onclick="selectTheme(this,'Indian / Lehenga')">
+          <div class="option-label">Indian / Lehenga</div>
+          <div class="option-price">Rs 125,000</div>
+        </div>
+        <div class="option-card" onclick="selectTheme(this,'Western')">
+          <div class="option-label">Western</div>
+          <div class="option-price">Rs 125,000</div>
+        </div>
+        <div class="option-card" onclick="selectTheme(this,'Modern Kandyan')">
+          <div class="option-label">Modern Kandyan</div>
+          <div class="option-price">Rs 125,000</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(201,168,76,0.1); padding-top:14px; margin-bottom:14px;">
+        <div style="font-size:0.78rem; font-style:italic; color:var(--text-muted); margin-bottom:10px;">Looking for something different? Select below.</div>
+        <div class="option-card" onclick="selectTheme(this,'Other')" style="text-align:left; padding:14px 16px;">
+          <div class="option-label">Other — Engagement, Homecoming Only, Dressing & More</div>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnStep2" onclick="handleThemeNext()" disabled>Continue</button>
+    </div>
+
+    <!-- STEP 3A: BRIDAL PACKAGE DETAILS (Kandyan/Indian/Western/Modern) -->
+    <div class="step-panel" id="step3a">
+      <button class="btn-back" onclick="prevStep(2)">← Back</button>
+      <div class="step-eyebrow">Step 2 of 7</div>
+      <div class="step-title">What's included in your bridal package</div>
+      <div class="step-sub">Your Rs 125,000 bridal investment covers everything you need for the wedding day itself.</div>
+      <div class="included-list">
+        <div class="inc-section-title">Included</div>
+        <div class="inc-item"><div class="dot"></div>Bridal makeup artistry</div>
+        <div class="inc-item"><div class="dot"></div>Bridal hair styling</div>
+        <div class="inc-item"><div class="dot"></div>Dressing & draping</div>
+        <div class="inc-item"><div class="dot"></div>One consultation session</div>
+        <div class="inc-item"><div class="dot"></div>Bridal trial session</div>
+        <div class="inc-section-title">Not included in base package</div>
+        <div class="inc-item not"><div class="cross"></div>Multiple styling consultations</div>
+        <div class="inc-item not"><div class="cross"></div>Complete bridal direction & planning</div>
+        <div class="inc-item not"><div class="cross"></div>Saree, gown & accessory guidance</div>
+        <div class="inc-item not"><div class="cross"></div>Jewelry coordination</div>
+        <div class="inc-item not"><div class="cross"></div>Face-shape & skin-tone analysis</div>
+        <div class="inc-item not"><div class="cross"></div>Skin & hair preparation plan</div>
+        <div class="inc-item not"><div class="cross"></div>Homecoming styling</div>
+        <div class="inc-item not"><div class="cross"></div>Bridesmaid styling</div>
+      </div>
+      <button class="btn-primary" onclick="nextStep(4)">Continue</button>
+    </div>
+
+    <!-- STEP 3B: OTHER PATH -->
+    <div class="step-panel" id="step3b">
+      <button class="btn-back" onclick="prevStep(2)">← Back</button>
+      <div class="step-eyebrow">Other Services</div>
+      <div class="step-title">What are you looking for?</div>
+      <div class="step-sub">Select the service that best fits your occasion.</div>
+
+      <div class="other-option" onclick="selectOther(this,'Engagement','Rs 65,000','65000')">
+        <div class="other-opt-name">Engagement</div>
+        <div class="other-opt-price">Rs 65,000</div>
+      </div>
+      <div class="other-option" onclick="selectOther(this,'Homecoming Only','Rs 125,000','125000')">
+        <div class="other-opt-name">Homecoming Only</div>
+        <div class="other-opt-price">Rs 125,000</div>
+      </div>
+      <div class="other-option" onclick="selectOther(this,'Going Away Only','Rs 65,000','65000')">
+        <div class="other-opt-name">Going Away Only</div>
+        <div class="other-opt-price">Rs 65,000</div>
+      </div>
+
+      <div style="border-top:1px solid rgba(201,168,76,0.1); margin:16px 0 14px; padding-top:14px;">
+        <div style="font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Normal Dressing</div>
+        <div class="other-option" onclick="selectOther(this,'Full Dressing (Hair, Makeup & Saree Draping)','Rs 7,500','7500')">
+          <div class="other-opt-name">Full Dressing — Hair, Makeup & Draping</div>
+          <div class="other-opt-price">Rs 7,500</div>
+        </div>
+        <div class="other-option" onclick="selectOther(this,'Hair & Makeup','Rs 6,000','6000')">
+          <div class="other-opt-name">Hair & Makeup</div>
+          <div class="other-opt-price">Rs 6,000</div>
+        </div>
+        <div class="other-option" onclick="selectOther(this,'Hair or Makeup Only','Rs 5,000','5000')">
+          <div class="other-opt-name">Hair or Makeup Only</div>
+          <div class="other-opt-price">Rs 5,000</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnOther" onclick="nextStep('contact')" disabled>Continue</button>
+    </div>
+
+    <!-- STEP 4: THE JOURNEY -->
+    <div class="step-panel" id="step4">
+      <button class="btn-back" onclick="prevStep('3a')">← Back</button>
+      <div class="step-eyebrow">Step 3 of 7</div>
+      <div class="step-title">Design your complete bridal look</div>
+      <div class="step-sub">The Journey is where your unique bridal identity is created — before a single brush is lifted.</div>
+
+      <div class="journey-features">
+        <div style="font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">What The Journey includes</div>
+        <div class="journey-feat-item"><div class="dot"></div>Multiple private consultation sessions</div>
+        <div class="journey-feat-item"><div class="dot"></div>Complete bridal styling direction</div>
+        <div class="journey-feat-item"><div class="dot"></div>Saree, gown & accessory planning</div>
+        <div class="journey-feat-item"><div class="dot"></div>Jewelry coordination guidance</div>
+        <div class="journey-feat-item"><div class="dot"></div>Face-shape & skin-tone analysis</div>
+        <div class="journey-feat-item"><div class="dot"></div>Personalised skin & hair preparation plan</div>
+        <div class="journey-feat-item"><div class="dot"></div>WhatsApp support — 60 days before your wedding</div>
+      </div>
+
+      <div class="journey-warning">
+        ⭐ Most recommended. Without The Journey, we cannot guarantee the outcome of your complete bridal look — every detail is planned specifically for you.
+      </div>
+
+      <div class="yn-wrap">
+        <div class="yn-btn" id="yn-journey-yes" onclick="selectJourney(true)">Yes — Add The Journey<br><span style="font-size:0.75rem; color:var(--gold-light); font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; text-transform:none; letter-spacing:0;">+ Rs 40,000</span></div>
+        <div class="yn-btn" id="yn-journey-no" onclick="selectJourney(false)">Continue without<br><span style="font-size:0.75rem; color:var(--text-muted); font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; text-transform:none; letter-spacing:0;">Not recommended</span></div>
+      </div>
+      <button class="btn-primary" id="btnStep4" onclick="nextStep(5)" disabled>Continue</button>
+    </div>
+
+    <!-- STEP 5: HOMECOMING -->
+    <div class="step-panel" id="step5">
+      <button class="btn-back" onclick="prevStep(4)">← Back</button>
+      <div class="step-eyebrow">Step 4 of 7</div>
+      <div class="step-title">Are you planning a homecoming?</div>
+      <div class="step-sub">Let us be part of your full celebration.</div>
+
+      <div class="pkg-highlight" style="margin-bottom:16px;">
+        <p>Our standard homecoming rate is <span style="text-decoration:line-through; color:var(--text-dim);">Rs 125,000</span>. When you book both your wedding and homecoming together, you save <strong>Rs 30,000</strong> — homecoming at <strong>Rs 95,000</strong>.</p>
+        <p style="margin-top:8px;">Bridesmaids are also <strong>Rs 32,000</strong> each when homecoming is included — instead of the standard Rs 38,000.</p>
+        <a class="pkg-link" href="https://biso-priceguide.vercel.app" target="_blank">View full packages →</a>
+      </div>
+
+      <div class="yn-wrap" id="hc-yn">
+        <div class="yn-btn" id="yn-hc-yes" onclick="selectHomecoming(true)">Yes — Add Homecoming<br><span style="font-size:0.75rem; color:var(--gold-light); font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; text-transform:none; letter-spacing:0;"><span style="text-decoration:line-through; color:var(--text-dim);">Rs 125,000</span> → Rs 95,000</span></div>
+        <div class="yn-btn" id="yn-hc-no" onclick="selectHomecoming(false)">No Homecoming</div>
+      </div>
+
+      <div id="hc-theme-wrap" style="display:none; margin-top:16px;">
+        <div style="font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:10px;">Homecoming Theme</div>
+        <div class="options-grid two-col">
+          <div class="option-card" onclick="selectHcTheme(this,'Kandyan')"><div class="option-label">Kandyan</div></div>
+          <div class="option-card" onclick="selectHcTheme(this,'Indian / Lehenga')"><div class="option-label">Indian / Lehenga</div></div>
+          <div class="option-card" onclick="selectHcTheme(this,'Western')"><div class="option-label">Western</div></div>
+          <div class="option-card" onclick="selectHcTheme(this,'Modern Kandyan')"><div class="option-label">Modern Kandyan</div></div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnStep5" onclick="nextStep(6)" disabled>Continue</button>
+    </div>
+
+    <!-- STEP 6: RETINUE -->
+    <div class="step-panel" id="step6">
+      <button class="btn-back" onclick="prevStep(5)">← Back</button>
+      <div class="step-eyebrow">Step 5 of 7</div>
+      <div class="step-title">Your bridal retinue</div>
+      <div class="step-sub">How many will be joining your celebration?</div>
+
+      <div class="pkg-highlight" style="margin-bottom:18px;">
+        <p id="retinuePkgNote">Bridal + Homecoming + 1 Bridesmaid is our <strong>Package 02 — The Biso Signature</strong>. Adding your retinue may bring you closer to a package investment that offers better value.</p>
+        <a class="pkg-link" href="https://biso-priceguide.vercel.app" target="_blank">View full packages →</a>
+      </div>
+
+      <div class="counter-row">
+        <div>
+          <div class="counter-label">Bridesmaids</div>
+          <div class="counter-note" id="bmNote">Rs 38,000 per bridesmaid</div>
+        </div>
+        <div class="counter-controls">
+          <button class="counter-btn" onclick="changeCount('bridesmaids',-1)">−</button>
+          <div class="counter-val" id="val-bridesmaids">0</div>
+          <button class="counter-btn" onclick="changeCount('bridesmaids',1)">+</button>
+        </div>
+      </div>
+
+      <div class="counter-row">
+        <div>
+          <div class="counter-label">Flower Girls</div>
+          <div class="counter-note">Rs 8,000 per flower girl</div>
+        </div>
+        <div class="counter-controls">
+          <button class="counter-btn" onclick="changeCount('flowergirls',-1)">−</button>
+          <div class="counter-val" id="val-flowergirls">0</div>
+          <button class="counter-btn" onclick="changeCount('flowergirls',1)">+</button>
+        </div>
+      </div>
+
+      <div class="counter-row">
+        <div>
+          <div class="counter-label">Little Maids</div>
+          <div class="counter-note">Rs 10,000 per little maid</div>
+        </div>
+        <div class="counter-controls">
+          <button class="counter-btn" onclick="changeCount('littlemaids',-1)">−</button>
+          <div class="counter-val" id="val-littlemaids">0</div>
+          <button class="counter-btn" onclick="changeCount('littlemaids',1)">+</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="margin-top:22px;" onclick="nextStep(7)">Continue</button>
+    </div>
+
+    <!-- STEP 7: ADD-ONS -->
+    <div class="step-panel" id="step7">
+      <button class="btn-back" onclick="prevStep(6)">← Back</button>
+      <div class="step-eyebrow">Step 6 of 7</div>
+      <div class="step-title">Complete your bridal experience</div>
+      <div class="step-sub">Add the finishing touches to your wedding day.</div>
+
+      <!-- GOING AWAY -->
+      <div style="font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Going Away</div>
+      <div class="yn-wrap" style="margin-bottom:24px;">
+        <div class="yn-btn" id="yn-ga-yes" onclick="selectGoingAway(true)">Yes — Add Going Away<br><span id="gaPrice" style="font-size:0.75rem; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; text-transform:none; letter-spacing:0; color:var(--gold-light);">Rs 65,000</span></div>
+        <div class="yn-btn" id="yn-ga-no" onclick="selectGoingAway(false)">No Going Away</div>
+      </div>
+
+      <!-- OTHER ADD-ONS -->
+      <div style="font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Additional Services</div>
+      <div id="addonList">
+        <div class="addon-item">
+          <div class="addon-header" onclick="toggleAddon(this,'touchup')">
+            <div class="addon-left">
+              <div class="addon-check" id="chk-touchup"></div>
+              <div class="addon-name">Personal Touch-Up</div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price-wrap"><span class="price-tag">Rs 10,000</span></div>
+              <div class="addon-expand" id="exp-touchup">+</div>
+            </div>
+          </div>
+          <div class="addon-desc" id="desc-touchup">A dedicated stylist available throughout your event for touch-ups — ensuring you look perfect from ceremony to reception.</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-header" onclick="toggleAddon(this,'venuestandby')">
+            <div class="addon-left">
+              <div class="addon-check" id="chk-venuestandby"></div>
+              <div class="addon-name">Venue Touch-Up Standby</div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price-wrap"><span class="price-tag">Rs 20,000</span></div>
+              <div class="addon-expand" id="exp-venuestandby">+</div>
+            </div>
+          </div>
+          <div class="addon-desc" id="desc-venuestandby">Full team on standby at your venue for the entire duration — available for all bridal party touch-ups and last-minute styling needs.</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-header" onclick="toggleAddon(this,'jewellery')">
+            <div class="addon-left">
+              <div class="addon-check" id="chk-jewellery"></div>
+              <div class="addon-name">Kandyan Jewellery</div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price-wrap"><span class="price-tag">From Rs 20,000</span></div>
+              <div class="addon-expand" id="exp-jewellery">+</div>
+            </div>
+          </div>
+          <div class="addon-desc" id="desc-jewellery">Curated Kandyan bridal jewellery selected to complement your complete look — coordinated by our styling team through trusted vendors.</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-header" onclick="toggleAddon(this,'bouquet')">
+            <div class="addon-left">
+              <div class="addon-check" id="chk-bouquet"></div>
+              <div class="addon-name">Fresh Bridal Bouquet</div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price-wrap"><span class="price-tag">From Rs 25,000</span></div>
+              <div class="addon-expand" id="exp-bouquet">+</div>
+            </div>
+          </div>
+          <div class="addon-desc" id="desc-bouquet">A custom-designed fresh flower bridal bouquet — styled to harmonise with your colour palette, gown, and overall bridal concept.</div>
+        </div>
+        <div class="addon-item">
+          <div class="addon-header" onclick="toggleAddon(this,'tailoring')">
+            <div class="addon-left">
+              <div class="addon-check" id="chk-tailoring"></div>
+              <div class="addon-name">Saree / Gown Tailoring</div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price-wrap"><span class="price-tag">From Rs 35,000</span></div>
+              <div class="addon-expand" id="exp-tailoring">+</div>
+            </div>
+          </div>
+          <div class="addon-desc" id="desc-tailoring">Custom tailoring for your bridal saree or gown — Kandyan from Rs 45,000 · Indian from Rs 35,000 · Lehenga from Rs 35,000 · Western Frock from Rs 65,000. Exact pricing confirmed at consultation.</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="margin-top:20px;" onclick="nextStep(8)">Review My Estimate</button>
+    </div>
+
+    <!-- STEP 8: INVOICE + CONTACT -->
+    <div class="step-panel" id="step8">
+      <button class="btn-back" onclick="prevStep(7)">← Back</button>
+      <div class="step-eyebrow">Step 7 of 7</div>
+      <div class="step-title">Your personalised estimate</div>
+      <div class="step-sub">Based on your selections. Final investment confirmed at consultation.</div>
+
+      <div class="invoice-preview">
+        <div class="invoice-header">
+          <div class="invoice-title">Biso by Dinushi — Estimate</div>
+          <div class="invoice-date" id="invoiceDate"></div>
+        </div>
+        <div id="invoiceLines"></div>
+        <div class="invoice-total">
+          <div class="label">Total Estimate</div>
+          <div class="total-amt" id="invoiceTotal"></div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Your Name</label>
+        <input class="input-field" id="brideName" type="text" placeholder="Your full name" oninput="validateContact()" />
+      </div>
+      <div class="input-group">
+        <label class="input-label">Wedding Date</label>
+        <input class="input-field" id="weddingDate" type="date" style="color-scheme:dark;" />
+      </div>
+      <div class="input-group">
+        <label class="input-label">WhatsApp Number</label>
+        <div class="phone-wrap">
+          <div class="phone-prefix">🇱🇰 +94</div>
+          <input class="input-field" id="phoneNumber" type="tel" placeholder="7X XXX XXXX" maxlength="10" oninput="validateContact()" style="border-left:none;" />
+        </div>
+      </div>
+      <div class="checkbox-row" onclick="toggleCheck()">
+        <div class="checkbox-box" id="confirmCheck"></div>
+        <div class="checkbox-text">I confirm this is my WhatsApp number and agree to be contacted by Biso by Dinushi regarding my bridal enquiry.</div>
+      </div>
+      <button class="btn-primary" id="btnSend" onclick="sendToWhatsApp()" disabled>Send My Invoice to WhatsApp</button>
+    </div>
+
+    <!-- CONTACT PAGE FOR OTHER PATH -->
+    <div class="step-panel" id="stepContact">
+      <button class="btn-back" onclick="prevStep('3b')">← Back</button>
+      <div class="step-eyebrow">Almost there</div>
+      <div class="step-title">Where shall we send your estimate?</div>
+      <div class="step-sub">We'll send your personalised quote directly to your WhatsApp.</div>
+
+      <div class="invoice-preview" id="otherInvoicePreview" style="margin-bottom:20px;">
+        <div class="invoice-header">
+          <div class="invoice-title">Biso by Dinushi — Estimate</div>
+          <div class="invoice-date" id="otherInvoiceDate"></div>
+        </div>
+        <div id="otherInvoiceLines"></div>
+        <div class="invoice-total">
+          <div class="label">Total Estimate</div>
+          <div class="total-amt" id="otherInvoiceTotal"></div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Your Name</label>
+        <input class="input-field" id="otherName" type="text" placeholder="Your full name" oninput="validateOtherContact()" />
+      </div>
+      <div class="input-group">
+        <label class="input-label">Event Date</label>
+        <input class="input-field" id="otherDate" type="date" style="color-scheme:dark;" />
+      </div>
+      <div class="input-group">
+        <label class="input-label">WhatsApp Number</label>
+        <div class="phone-wrap">
+          <div class="phone-prefix">🇱🇰 +94</div>
+          <input class="input-field" id="otherPhone" type="tel" placeholder="7X XXX XXXX" maxlength="10" oninput="validateOtherContact()" style="border-left:none;" />
+        </div>
+      </div>
+      <div class="checkbox-row" onclick="toggleOtherCheck()">
+        <div class="checkbox-box" id="otherConfirmCheck"></div>
+        <div class="checkbox-text">I confirm this is my WhatsApp number and agree to be contacted by Biso by Dinushi.</div>
+      </div>
+      <button class="btn-primary" id="btnOtherSend" onclick="sendOtherToWhatsApp()" disabled>Send to WhatsApp</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">✓</div>
+      <div class="success-title">Your invoice is ready</div>
+      <div class="success-sub">Tap below to open WhatsApp. Your complete bridal estimate will be pre-filled and ready to send to Dinushi.</div>
+      <a class="btn-whatsapp" id="whatsappLink" href="#" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Open WhatsApp
+      </a>
+    </div>
+
+  </div>
+
+  <div class="site-footer">bisostyling@gmail.com &nbsp;·&nbsp; +94 707 550 221 &nbsp;·&nbsp; Negombo, Sri Lanka</div>
+</div>
+
+<script>
+  // ── STATE ──
+  const d = {
+    theme:'', hcTheme:'', journey:false, homecoming:false,
+    goingaway:false, bridesmaids:0, flowergirls:0, littlemaids:0,
+    addons:[], otherService:'', otherPrice:0,
+    name:'', phone:'', date:''
+  };
+
+  const PRICE = {
+    base:125000, journey:40000, hc:95000, hcStd:125000,
+    bm:38000, bmHc:32000, fg:8000, lm:10000,
+    ga:65000, gaDisc:47000,
+    touchup:10000, venuestandby:20000,
+    jewellery:20000, bouquet:25000, tailoring:35000
+  };
+
+  let checked = false, otherChecked = false;
+  let currentStep = 1;
+
+  // ── NAVIGATION ──
+  function showStep(id) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    const el = document.getElementById('step' + id);
+    if (el) { el.classList.add('active'); }
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function nextStep(to) {
+    if (to === 8) buildInvoice();
+    if (to === 'contact') buildOtherInvoice();
+    const id = to === 'contact' ? 'Contact' : to;
+    showStep(id);
+    updateProgress(to);
+  }
+
+  function prevStep(to) {
+    const id = to === '3a' ? '3a' : to === '3b' ? '3b' : to;
+    showStep(id);
+    updateProgress(to);
+  }
+
+  function updateProgress(step) {
+    const map = {1:1, 2:2, '3a':3, '3b':3, 4:4, 5:5, 6:6, 7:7, 8:8, contact:8};
+    const total = 8;
+    const n = map[step] || step;
+    const pct = (n / total) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = 'Step ' + n + ' of ' + total;
+  }
+
+  // ── THEME ──
+  function selectTheme(el, val) {
+    document.querySelectorAll('#step2 .option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    d.theme = val;
+    document.getElementById('btnStep2').disabled = false;
+  }
+
+  function handleThemeNext() {
+    if (d.theme === 'Other') { nextStep('3b'); updateProgress('3b'); }
+    else { nextStep('3a'); updateProgress('3a'); }
+  }
+
+  // ── HC THEME ──
+  function selectHcTheme(el, val) {
+    document.querySelectorAll('#hc-theme-wrap .option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    d.hcTheme = val;
+    document.getElementById('btnStep5').disabled = false;
+  }
+
+  // ── JOURNEY ──
+  function selectJourney(val) {
+    d.journey = val;
+    document.getElementById('yn-journey-yes').classList.toggle('selected', val);
+    document.getElementById('yn-journey-no').classList.toggle('selected', !val);
+    document.getElementById('btnStep4').disabled = false;
+  }
+
+  // ── HOMECOMING ──
+  function selectHomecoming(val) {
+    d.homecoming = val;
+    document.getElementById('yn-hc-yes').classList.toggle('selected', val);
+    document.getElementById('yn-hc-no').classList.toggle('selected', !val);
+    const wrap = document.getElementById('hc-theme-wrap');
+    if (val) {
+      wrap.style.display = 'block';
+      document.getElementById('btnStep5').disabled = true; // need theme selection
+    } else {
+      wrap.style.display = 'none';
+      d.hcTheme = '';
+      document.getElementById('btnStep5').disabled = false;
+    }
+    updateBmNote();
+    updateGoingAwayPrice();
+  }
+
+  // ── COUNTERS ──
+  function changeCount(field, delta) {
+    d[field] = Math.max(0, d[field] + delta);
+    document.getElementById('val-' + field).textContent = d[field];
+    updateGoingAwayPrice();
+  }
+
+  function updateBmNote() {
+    const note = document.getElementById('bmNote');
+    if (d.homecoming) {
+      note.innerHTML = '<span class="strikethrough">Rs 38,000</span> <span class="discounted">Rs 32,000 per bridesmaid</span> — homecoming discount applied';
+    } else {
+      note.textContent = 'Rs 38,000 per bridesmaid';
+    }
+  }
+
+  // ── GOING AWAY PRICE LOGIC ──
+  function updateGoingAwayPrice() {
+    const el = document.getElementById('gaPrice');
+    // Discount applies if homecoming AND 2+ bridesmaids
+    const discApplies = d.homecoming && d.bridesmaids >= 2;
+    if (discApplies) {
+      el.innerHTML = '<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;">Rs 65,000</span>Rs 47,000';
+    } else {
+      el.textContent = 'Rs 65,000';
+    }
+    if (d.goingaway !== null && d.goingaway !== undefined && typeof d.goingaway === 'boolean') {
+      const yes = document.getElementById('yn-ga-yes');
+      if (yes) {
+        const priceSpan = yes.querySelector('span');
+        if (priceSpan) priceSpan.innerHTML = el.innerHTML;
+      }
+    }
+  }
+
+  function selectGoingAway(val) {
+    d.goingaway = val;
+    document.getElementById('yn-ga-yes').classList.toggle('selected', val);
+    document.getElementById('yn-ga-no').classList.toggle('selected', !val);
+  }
+
+  // ── ADDONS ──
+  function toggleAddon(headerEl, id) {
+    const check = document.getElementById('chk-' + id);
+    const desc = document.getElementById('desc-' + id);
+    const exp = document.getElementById('exp-' + id);
+    const isChecked = check.classList.contains('checked');
+
+    // Toggle description expand
+    const descVisible = desc.classList.contains('visible');
+    desc.classList.toggle('visible', !descVisible);
+    exp.classList.toggle('open', !descVisible);
+    exp.textContent = descVisible ? '+' : '×';
+
+    // Toggle selection on checkbox click area
+    const rect = headerEl.getBoundingClientRect();
+    check.classList.toggle('checked', !isChecked);
+    if (!isChecked) { if (!d.addons.includes(id)) d.addons.push(id); }
+    else { d.addons = d.addons.filter(a => a !== id); }
+  }
+
+  // ── OTHER PATH ──
+  function selectOther(el, name, priceStr, priceNum) {
+    document.querySelectorAll('#step3b .other-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    d.otherService = name;
+    d.otherPrice = parseInt(priceNum);
+    document.getElementById('btnOther').disabled = false;
+  }
+
+  function buildOtherInvoice() {
+    document.getElementById('otherInvoiceDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    document.getElementById('otherInvoiceLines').innerHTML = `
+      <div class="invoice-line"><span class="item">${d.otherService}</span><span class="amt">Rs ${d.otherPrice.toLocaleString('en-US')}</span></div>`;
+    document.getElementById('otherInvoiceTotal').textContent = 'Rs ' + d.otherPrice.toLocaleString('en-US');
+  }
+
+  // ── BUILD INVOICE ──
+  function buildInvoice() {
+    const lines = [];
+    let total = PRICE.base;
+    lines.push({item: d.theme + ' Bridal', amt: PRICE.base});
+
+    if (d.journey) { lines.push({item:'The Journey', amt:PRICE.journey}); total += PRICE.journey; }
+    if (d.homecoming) {
+      lines.push({item:'Homecoming (' + (d.hcTheme||'') + ')', amt:PRICE.hc, orig:PRICE.hcStd});
+      total += PRICE.hc;
+    }
+
+    const bmRate = d.homecoming ? PRICE.bmHc : PRICE.bm;
+    const bmOrig = d.homecoming ? PRICE.bm : null;
+    if (d.bridesmaids > 0) {
+      const bAmt = d.bridesmaids * bmRate;
+      lines.push({item:'Bridesmaids ×' + d.bridesmaids, amt:bAmt, origPerUnit: bmOrig, count: d.bridesmaids});
+      total += bAmt;
+    }
+    if (d.flowergirls > 0) { const a=d.flowergirls*PRICE.fg; lines.push({item:'Flower Girls ×'+d.flowergirls, amt:a}); total+=a; }
+    if (d.littlemaids > 0) { const a=d.littlemaids*PRICE.lm; lines.push({item:'Little Maids ×'+d.littlemaids, amt:a}); total+=a; }
+
+    const discGA = d.homecoming && d.bridesmaids >= 2;
+    if (d.goingaway) {
+      const gaAmt = discGA ? PRICE.gaDisc : PRICE.ga;
+      const gaOrig = discGA ? PRICE.ga : null;
+      lines.push({item:'Going Away Look', amt:gaAmt, orig:gaOrig});
+      total += gaAmt;
+    }
+
+    // Addons
+    const addonPrices = {touchup:PRICE.touchup, venuestandby:PRICE.venuestandby, jewellery:PRICE.jewellery, bouquet:PRICE.bouquet, tailoring:PRICE.tailoring};
+    const addonNames = {touchup:'Personal Touch-Up', venuestandby:'Venue Touch-Up Standby', jewellery:'Kandyan Jewellery', bouquet:'Fresh Bridal Bouquet', tailoring:'Saree / Gown Tailoring'};
+    d.addons.forEach(a => {
+      lines.push({item:addonNames[a], amt:addonPrices[a], fromPrice:true});
+      total += addonPrices[a];
+    });
+
+    document.getElementById('invoiceDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+    document.getElementById('invoiceLines').innerHTML = lines.map(l => {
+      let amtHtml = '';
+      if (l.orig) amtHtml = `<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;font-size:0.78rem;">Rs ${l.orig.toLocaleString('en-US')}</span>`;
+      if (l.origPerUnit) amtHtml = `<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;font-size:0.78rem;">Rs ${(l.origPerUnit*l.count).toLocaleString('en-US')}</span>`;
+      amtHtml += (l.fromPrice ? 'From ' : '') + 'Rs ' + l.amt.toLocaleString('en-US');
+      return `<div class="invoice-line"><span class="item">${l.item}</span><span class="amt">${amtHtml}</span></div>`;
+    }).join('');
+
+    document.getElementById('invoiceTotal').textContent = 'Rs ' + total.toLocaleString('en-US');
+    d._total = total;
+    d._lines = lines;
+  }
+
+  // ── VALIDATION ──
+  function validateContact() {
+    const name = document.getElementById('brideName').value.trim();
+    const phone = document.getElementById('phoneNumber').value.trim();
+    document.getElementById('btnSend').disabled = !(name && phone.length >= 9 && checked);
+  }
+
+  function validateOtherContact() {
+    const name = document.getElementById('otherName').value.trim();
+    const phone = document.getElementById('otherPhone').value.trim();
+    document.getElementById('btnOtherSend').disabled = !(name && phone.length >= 9 && otherChecked);
+  }
+
+  function toggleCheck() {
+    checked = !checked;
+    document.getElementById('confirmCheck').classList.toggle('checked', checked);
+    validateContact();
+  }
+
+  function toggleOtherCheck() {
+    otherChecked = !otherChecked;
+    document.getElementById('otherConfirmCheck').classList.toggle('checked', otherChecked);
+    validateOtherContact();
+  }
+
+  // ── WHATSAPP ──
+  function buildMessage() {
+    const name = document.getElementById('brideName').value.trim();
+    const phone = document.getElementById('phoneNumber').value.trim();
+    const wDate = document.getElementById('weddingDate').value;
+    let msg = `✨ *BISO BY DINUSHI — Bridal Enquiry*\n\n`;
+    msg += `*Bride:* ${name}\n`;
+    if (wDate) msg += `*Wedding Date:* ${new Date(wDate).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\n`;
+    msg += `*WhatsApp:* +94${phone}\n\n`;
+    msg += `*Bridal Theme:* ${d.theme}\n`;
+    msg += `*The Journey:* ${d.journey ? 'Yes' : 'No'}\n`;
+    msg += `*Homecoming:* ${d.homecoming ? 'Yes — ' + d.hcTheme : 'No'}\n`;
+    msg += `*Going Away:* ${d.goingaway ? 'Yes' : 'No'}\n`;
+    msg += `*Bridesmaids:* ${d.bridesmaids}\n`;
+    msg += `*Flower Girls:* ${d.flowergirls}\n`;
+    msg += `*Little Maids:* ${d.littlemaids}\n`;
+    if (d.addons.length) msg += `*Add-Ons:* ${d.addons.join(', ')}\n`;
+    msg += `\n📋 *Estimated Investment*\n`;
+    d._lines.forEach(l => { msg += `• ${l.item}: Rs ${l.amt.toLocaleString('en-US')}\n`; });
+    msg += `\n💰 *Total Estimate: Rs ${d._total.toLocaleString('en-US')}*\n\n`;
+    msg += `_This is an estimate. Final investment confirmed at consultation._`;
+    return msg;
+  }
+
+  function sendToWhatsApp() {
+    const link = `https://wa.me/94707550221?text=${encodeURIComponent(buildMessage())}`;
+    document.getElementById('whatsappLink').href = link;
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function sendOtherToWhatsApp() {
+    const name = document.getElementById('otherName').value.trim();
+    const phone = document.getElementById('otherPhone').value.trim();
+    const date = document.getElementById('otherDate').value;
+    let msg = `✨ *BISO BY DINUSHI — Enquiry*\n\n`;
+    msg += `*Name:* ${name}\n`;
+    if (date) msg += `*Date:* ${new Date(date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\n`;
+    msg += `*WhatsApp:* +94${phone}\n\n`;
+    msg += `*Service:* ${d.otherService}\n`;
+    msg += `*Estimate:* Rs ${d.otherPrice.toLocaleString('en-US')}\n\n`;
+    msg += `_Sent via Biso by Dinushi enquiry form._`;
+    const link = `https://wa.me/94707550221?text=${encodeURIComponent(msg)}`;
+    document.getElementById('whatsappLink').href = link;
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
