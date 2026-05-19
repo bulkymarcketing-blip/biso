@@ -155,8 +155,8 @@
   .btn-primary:disabled { opacity:0.35; cursor:not-allowed; }
   .btn-whatsapp { width:100%; padding:15px; background:var(--green); border:none; color:#fff; font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:10px; text-decoration:none; margin-top:8px; }
   .btn-whatsapp:hover { opacity:0.9; }
-  .btn-back { background:none; border:none; color:var(--text-dim); font-family:'Cormorant Garamond',serif; font-size:0.85rem; letter-spacing:0.08em; cursor:pointer; padding:8px 0; display:flex; align-items:center; gap:6px; transition:color 0.2s; margin-bottom:18px; }
-  .btn-back:hover { color:var(--text-muted); }
+  .btn-back { background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); color:var(--gold-light); font-family:'Cormorant Garamond',serif; font-size:0.9rem; letter-spacing:0.08em; cursor:pointer; padding:10px 16px; display:inline-flex; align-items:center; gap:6px; transition:all 0.2s; margin-bottom:20px; }
+  .btn-back:hover { background:rgba(201,168,76,0.15); border-color:var(--gold); color:var(--gold-pale); }
   .btn-secondary { width:100%; padding:13px; background:transparent; border:1px solid rgba(201,168,76,0.3); color:var(--gold-light); font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-top:8px; }
   .btn-secondary:hover { background:rgba(201,168,76,0.06); border-color:var(--gold); }
 
@@ -502,26 +502,20 @@
         </div>
       </div>
 
-      <button class="btn-primary" style="margin-top:20px;" onclick="nextStep(8)">Review My Estimate</button>
+      <button class="btn-primary" style="margin-top:20px;" id="btnStep7" onclick="nextStep(8)" disabled>Almost There →</button>
     </div>
 
-    <!-- STEP 8: INVOICE + CONTACT -->
+    <!-- STEP 8: CONTACT WITH SUMMARY -->
     <div class="step-panel" id="step8">
-      <button class="btn-back" onclick="prevStep(7)">← Back</button>
-      <div class="step-eyebrow">Step 7 of 7</div>
-      <div class="step-title">Your personalised estimate</div>
-      <div class="step-sub">Based on your selections. Final investment confirmed at consultation.</div>
+      <button class="btn-back" onclick="prevStep(7)">← Back to Add-Ons</button>
+      <div class="step-eyebrow">Final Step</div>
+      <div class="step-title">Where shall Dinushi reach you?</div>
+      <div class="step-sub">Your personalised quote will be sent directly to your WhatsApp — including your full estimate.</div>
 
-      <div class="invoice-preview">
-        <div class="invoice-header">
-          <div class="invoice-title">Biso by Dinushi — Estimate</div>
-          <div class="invoice-date" id="invoiceDate"></div>
-        </div>
-        <div id="invoiceLines"></div>
-        <div class="invoice-total">
-          <div class="label">Total Estimate</div>
-          <div class="total-amt" id="invoiceTotal"></div>
-        </div>
+      <!-- SELECTION SUMMARY -->
+      <div style="border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); margin-bottom:22px;">
+        <div style="padding:12px 16px; border-bottom:1px solid rgba(201,168,76,0.1); font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase;">Your Selections</div>
+        <div id="selectionSummary" style="padding:12px 16px;"></div>
       </div>
 
       <div class="input-group">
@@ -541,28 +535,22 @@
       </div>
       <div class="checkbox-row" onclick="toggleCheck()">
         <div class="checkbox-box" id="confirmCheck"></div>
-        <div class="checkbox-text">I confirm this is my WhatsApp number and agree to be contacted by Biso by Dinushi regarding my bridal enquiry.</div>
+        <div class="checkbox-text">I confirm this is my WhatsApp number and I'd like Dinushi to reach out about my bridal enquiry.</div>
       </div>
-      <button class="btn-primary" id="btnSend" onclick="sendToWhatsApp()" disabled>Send My Invoice to WhatsApp</button>
+      <button class="btn-primary" id="btnSend" onclick="sendToWhatsApp()" disabled>Get My Personal Quote on WhatsApp</button>
+      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:12px; letter-spacing:0.03em;">Dinushi personally responds to every enquiry within 24 hours.</p>
     </div>
 
     <!-- CONTACT PAGE FOR OTHER PATH -->
     <div class="step-panel" id="stepContact">
       <button class="btn-back" onclick="prevStep('3b')">← Back</button>
-      <div class="step-eyebrow">Almost there</div>
-      <div class="step-title">Where shall we send your estimate?</div>
-      <div class="step-sub">We'll send your personalised quote directly to your WhatsApp.</div>
+      <div class="step-eyebrow">Final Step</div>
+      <div class="step-title">Where shall Dinushi reach you?</div>
+      <div class="step-sub">Your estimate will be sent directly to your WhatsApp.</div>
 
-      <div class="invoice-preview" id="otherInvoicePreview" style="margin-bottom:20px;">
-        <div class="invoice-header">
-          <div class="invoice-title">Biso by Dinushi — Estimate</div>
-          <div class="invoice-date" id="otherInvoiceDate"></div>
-        </div>
-        <div id="otherInvoiceLines"></div>
-        <div class="invoice-total">
-          <div class="label">Total Estimate</div>
-          <div class="total-amt" id="otherInvoiceTotal"></div>
-        </div>
+      <div style="border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); margin-bottom:20px;">
+        <div style="padding:12px 16px; border-bottom:1px solid rgba(201,168,76,0.1); font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase;">Your Selection</div>
+        <div id="otherSummary" style="padding:12px 16px;"></div>
       </div>
 
       <div class="input-group">
@@ -582,20 +570,22 @@
       </div>
       <div class="checkbox-row" onclick="toggleOtherCheck()">
         <div class="checkbox-box" id="otherConfirmCheck"></div>
-        <div class="checkbox-text">I confirm this is my WhatsApp number and agree to be contacted by Biso by Dinushi.</div>
+        <div class="checkbox-text">I confirm this is my WhatsApp number and I'd like Dinushi to reach out about my enquiry.</div>
       </div>
-      <button class="btn-primary" id="btnOtherSend" onclick="sendOtherToWhatsApp()" disabled>Send to WhatsApp</button>
+      <button class="btn-primary" id="btnOtherSend" onclick="sendOtherToWhatsApp()" disabled>Get My Personal Quote on WhatsApp</button>
+      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:12px; letter-spacing:0.03em;">Dinushi personally responds to every enquiry within 24 hours.</p>
     </div>
 
     <!-- SUCCESS -->
     <div class="success-screen" id="successScreen">
       <div class="success-icon">✓</div>
-      <div class="success-title">Your invoice is ready</div>
-      <div class="success-sub">Tap below to open WhatsApp. Your complete bridal estimate will be pre-filled and ready to send to Dinushi.</div>
+      <div class="success-title">Your quote is ready to send</div>
+      <div class="success-sub">Tap below to open WhatsApp. Your complete bridal estimate is pre-filled and ready — just tap send. Dinushi will personally respond within 24 hours.</div>
       <a class="btn-whatsapp" id="whatsappLink" href="#" target="_blank">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Open WhatsApp
+        Open WhatsApp — Send to Dinushi
       </a>
+      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:16px; letter-spacing:0.03em;">Your message is pre-filled. Just tap send.</p>
     </div>
 
   </div>
@@ -632,12 +622,55 @@
   }
 
   function nextStep(to) {
-    if (to === 8) buildInvoice();
-    if (to === 'contact') buildOtherInvoice();
+    if (to === 8) { buildInvoice(); buildSummary(); }
+    if (to === 'contact') { buildOtherInvoice(); buildOtherSummary(); }
     if (to === 5) refreshHomecomingPage();
     const id = to === 'contact' ? 'Contact' : to;
     showStep(id);
     updateProgress(to);
+  }
+
+  function buildSummary() {
+    const discountsApply = d.homecoming && d.journey;
+    const bmRate = discountsApply ? PRICE.bmHc : PRICE.bm;
+    const hcAmt = discountsApply ? PRICE.hc : PRICE.hcStd;
+    const gaDisc = discountsApply && d.bridesmaids >= 2;
+    const gaAmt = gaDisc ? PRICE.gaDisc : PRICE.ga;
+
+    const addonNames = {touchup:'Personal Touch-Up', venuestandby:'Venue Standby', jewellery:'Kandyan Jewellery', bouquet:'Fresh Bouquet', tailoring:'Tailoring'};
+    const addonPrices = {touchup:PRICE.touchup, venuestandby:PRICE.venuestandby, jewellery:PRICE.jewellery, bouquet:PRICE.bouquet, tailoring:PRICE.tailoring};
+
+    let rows = [];
+    rows.push({ label: d.theme + ' Bridal', val: 'Rs 125,000' });
+    if (d.journey) rows.push({ label: 'The Journey', val: '+ Rs 40,000' });
+    if (d.homecoming) rows.push({ label: 'Homecoming' + (d.hcTheme ? ' (' + d.hcTheme + ')' : ''), val: 'Rs ' + hcAmt.toLocaleString('en-US') });
+    if (d.bridesmaids > 0) rows.push({ label: 'Bridesmaids ×' + d.bridesmaids, val: 'Rs ' + (d.bridesmaids * bmRate).toLocaleString('en-US') });
+    if (d.flowergirls > 0) rows.push({ label: 'Flower Girls ×' + d.flowergirls, val: 'Rs ' + (d.flowergirls * PRICE.fg).toLocaleString('en-US') });
+    if (d.littlemaids > 0) rows.push({ label: 'Little Maids ×' + d.littlemaids, val: 'Rs ' + (d.littlemaids * PRICE.lm).toLocaleString('en-US') });
+    if (d.goingaway === true) rows.push({ label: 'Going Away', val: 'Rs ' + gaAmt.toLocaleString('en-US') });
+    d.addons.forEach(a => {
+      if (addonPrices[a] !== undefined) {
+        rows.push({ label: addonNames[a] || a, val: 'Rs ' + addonPrices[a].toLocaleString('en-US') });
+      }
+    });
+
+    document.getElementById('selectionSummary').innerHTML = rows.map(r =>
+      `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,168,76,0.07);font-size:0.88rem;font-weight:300;">
+        <span style="color:var(--off-white);">${r.label}</span>
+        <span style="color:var(--gold-light);">${r.val}</span>
+      </div>`
+    ).join('') + `<div style="display:flex;justify-content:space-between;padding:10px 0 2px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;">
+      <span style="color:var(--gold);">TOTAL ESTIMATE</span>
+      <span style="color:var(--gold-pale);font-size:1rem;">Rs ${d._total.toLocaleString('en-US')}</span>
+    </div>`;
+  }
+
+  function buildOtherSummary() {
+    document.getElementById('otherSummary').innerHTML =
+      `<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.9rem;font-weight:300;">
+        <span style="color:var(--off-white);">${d.otherService}</span>
+        <span style="color:var(--gold-light);">Rs ${d.otherPrice.toLocaleString('en-US')}</span>
+      </div>`;
   }
 
   function prevStep(to) {
@@ -647,7 +680,7 @@
   }
 
   function updateProgress(step) {
-    const map = {1:1, 2:2, '3a':3, '3b':3, 4:4, 5:5, 6:6, 7:7, 8:8, contact:8};
+    const map = {1:1, 2:2, '3a':3, '3b':3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:8, contact:8};
     const total = 8;
     const n = map[step] || step;
     const pct = (n / total) * 100;
@@ -759,6 +792,7 @@
     d.goingaway = val;
     document.getElementById('yn-ga-yes').classList.toggle('selected', val);
     document.getElementById('yn-ga-no').classList.toggle('selected', !val);
+    document.getElementById('btnStep7').disabled = false;
   }
 
   // ── ADDONS ──
@@ -833,7 +867,7 @@
     if (d.littlemaids > 0) { const a=d.littlemaids*PRICE.lm; lines.push({item:'Little Maids ×'+d.littlemaids, amt:a}); total+=a; }
 
     const discGA = discountsApply && d.bridesmaids >= 2;
-    if (d.goingaway) {
+    if (d.goingaway === true) {
       const gaAmt = discGA ? PRICE.gaDisc : PRICE.ga;
       const gaOrig = discGA ? PRICE.ga : null;
       lines.push({item:'Going Away Look', amt:gaAmt, orig:gaOrig});
