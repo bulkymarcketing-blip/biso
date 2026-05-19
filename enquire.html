@@ -343,13 +343,14 @@
       <div class="step-sub">Let us be part of your full celebration.</div>
 
       <div class="pkg-highlight" style="margin-bottom:16px;">
-        <p>Our standard homecoming rate is <span style="text-decoration:line-through; color:var(--text-dim);">Rs 125,000</span>. When you book both your wedding and homecoming together, you save <strong>Rs 30,000</strong> — homecoming at <strong>Rs 95,000</strong>.</p>
-        <p style="margin-top:8px;">Bridesmaids are also <strong>Rs 32,000</strong> each when homecoming is included — instead of the standard Rs 38,000.</p>
+        <p id="hcPriceNote">Our standard homecoming rate is <strong>Rs 125,000</strong>.</p>
+        <p id="hcDiscountNote" style="display:none; margin-top:8px;">When you add The Journey and book both your wedding and homecoming together, you save <strong>Rs 30,000</strong> — homecoming at <strong>Rs 95,000</strong> instead of Rs 125,000.</p>
+        <p id="bmDiscountNote" style="margin-top:8px; display:none;">Bridesmaids are also <strong>Rs 32,000</strong> each when both Journey and Homecoming are included — instead of the standard Rs 38,000.</p>
         <a class="pkg-link" href="https://biso-priceguide.vercel.app" target="_blank">View full packages →</a>
       </div>
 
       <div class="yn-wrap" id="hc-yn">
-        <div class="yn-btn" id="yn-hc-yes" onclick="selectHomecoming(true)">Yes — Add Homecoming<br><span style="font-size:0.75rem; color:var(--gold-light); font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; text-transform:none; letter-spacing:0;"><span style="text-decoration:line-through; color:var(--text-dim);">Rs 125,000</span> → Rs 95,000</span></div>
+        <div class="yn-btn" id="yn-hc-yes" onclick="selectHomecoming(true)">Yes — Add Homecoming<br><span id="hcYesPrice" style="font-size:0.75rem; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; text-transform:none; letter-spacing:0; color:var(--gold-light);">Rs 125,000</span></div>
         <div class="yn-btn" id="yn-hc-no" onclick="selectHomecoming(false)">No Homecoming</div>
       </div>
 
@@ -373,8 +374,8 @@
       <div class="step-title">Your bridal retinue</div>
       <div class="step-sub">How many will be joining your celebration?</div>
 
-      <div class="pkg-highlight" style="margin-bottom:18px;">
-        <p id="retinuePkgNote">Bridal + Homecoming + 1 Bridesmaid is our <strong>Package 02 — The Biso Signature</strong>. Adding your retinue may bring you closer to a package investment that offers better value.</p>
+      <div class="pkg-highlight" style="margin-bottom:18px;" id="retinuePkgBox">
+        <p id="retinuePkgNote">Adding bridesmaids, flower girls, or little maids to your package will be reflected in your estimate.</p>
         <a class="pkg-link" href="https://biso-priceguide.vercel.app" target="_blank">View full packages →</a>
       </div>
 
@@ -633,6 +634,7 @@
   function nextStep(to) {
     if (to === 8) buildInvoice();
     if (to === 'contact') buildOtherInvoice();
+    if (to === 5) refreshHomecomingPage();
     const id = to === 'contact' ? 'Contact' : to;
     showStep(id);
     updateProgress(to);
@@ -688,16 +690,38 @@
     document.getElementById('yn-hc-yes').classList.toggle('selected', val);
     document.getElementById('yn-hc-no').classList.toggle('selected', !val);
     const wrap = document.getElementById('hc-theme-wrap');
+    const discountsApply = val && d.journey;
+    const bmNote = document.getElementById('bmDiscountNote');
+    const hcDisc = document.getElementById('hcDiscountNote');
     if (val) {
       wrap.style.display = 'block';
-      document.getElementById('btnStep5').disabled = true; // need theme selection
+      bmNote.style.display = discountsApply ? 'block' : 'none';
+      hcDisc.style.display = discountsApply ? 'block' : 'none';
+      document.getElementById('btnStep5').disabled = true;
     } else {
       wrap.style.display = 'none';
+      bmNote.style.display = 'none';
+      hcDisc.style.display = 'none';
       d.hcTheme = '';
       document.getElementById('btnStep5').disabled = false;
     }
     updateBmNote();
     updateGoingAwayPrice();
+  }
+
+  function refreshHomecomingPage() {
+    const discountsApply = d.journey;
+    const priceEl = document.getElementById('hcYesPrice');
+    const hcDisc = document.getElementById('hcDiscountNote');
+    const bmNote = document.getElementById('bmDiscountNote');
+    if (discountsApply) {
+      priceEl.innerHTML = '<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;">Rs 125,000</span>Rs 95,000';
+      if (d.homecoming) { hcDisc.style.display = 'block'; bmNote.style.display = 'block'; }
+    } else {
+      priceEl.textContent = 'Rs 125,000';
+      hcDisc.style.display = 'none';
+      bmNote.style.display = 'none';
+    }
   }
 
   // ── COUNTERS ──
@@ -709,29 +733,25 @@
 
   function updateBmNote() {
     const note = document.getElementById('bmNote');
-    if (d.homecoming) {
-      note.innerHTML = '<span class="strikethrough">Rs 38,000</span> <span class="discounted">Rs 32,000 per bridesmaid</span> — homecoming discount applied';
+    const pkgNote = document.getElementById('retinuePkgNote');
+    const discountsApply = d.homecoming && d.journey;
+    if (discountsApply) {
+      note.innerHTML = '<span class="strikethrough">Rs 38,000</span> <span class="discounted">Rs 32,000 per bridesmaid</span> — package discount applied';
+      pkgNote.innerHTML = 'Bridal + Homecoming + 1 Bridesmaid is our <strong>Package 02 — The Biso Signature</strong>. Adding your retinue may bring you closer to a package that offers better value.';
     } else {
       note.textContent = 'Rs 38,000 per bridesmaid';
+      pkgNote.textContent = 'Adding bridesmaids, flower girls, or little maids to your package will be reflected in your estimate.';
     }
   }
 
-  // ── GOING AWAY PRICE LOGIC ──
   function updateGoingAwayPrice() {
     const el = document.getElementById('gaPrice');
-    // Discount applies if homecoming AND 2+ bridesmaids
-    const discApplies = d.homecoming && d.bridesmaids >= 2;
-    if (discApplies) {
+    const discountsApply = d.homecoming && d.journey;
+    const discGA = discountsApply && d.bridesmaids >= 2;
+    if (discGA) {
       el.innerHTML = '<span style="text-decoration:line-through;color:var(--text-dim);margin-right:4px;">Rs 65,000</span>Rs 47,000';
     } else {
       el.textContent = 'Rs 65,000';
-    }
-    if (d.goingaway !== null && d.goingaway !== undefined && typeof d.goingaway === 'boolean') {
-      const yes = document.getElementById('yn-ga-yes');
-      if (yes) {
-        const priceSpan = yes.querySelector('span');
-        if (priceSpan) priceSpan.innerHTML = el.innerHTML;
-      }
     }
   }
 
@@ -748,17 +768,25 @@
     const exp = document.getElementById('exp-' + id);
     const isChecked = check.classList.contains('checked');
 
+    // Toggle checkbox and selection
+    check.classList.toggle('checked', !isChecked);
+    if (!isChecked) { if (!d.addons.includes(id)) d.addons.push(id); }
+    else { d.addons = d.addons.filter(a => a !== id); }
+
     // Toggle description expand
     const descVisible = desc.classList.contains('visible');
     desc.classList.toggle('visible', !descVisible);
     exp.classList.toggle('open', !descVisible);
     exp.textContent = descVisible ? '+' : '×';
+  }
 
-    // Toggle selection on checkbox click area
-    const rect = headerEl.getBoundingClientRect();
-    check.classList.toggle('checked', !isChecked);
-    if (!isChecked) { if (!d.addons.includes(id)) d.addons.push(id); }
-    else { d.addons = d.addons.filter(a => a !== id); }
+  function expandAddon(id) {
+    const desc = document.getElementById('desc-' + id);
+    const exp = document.getElementById('exp-' + id);
+    const descVisible = desc.classList.contains('visible');
+    desc.classList.toggle('visible', !descVisible);
+    exp.classList.toggle('open', !descVisible);
+    exp.textContent = descVisible ? '+' : '×';
   }
 
   // ── OTHER PATH ──
@@ -784,13 +812,18 @@
     lines.push({item: d.theme + ' Bridal', amt: PRICE.base});
 
     if (d.journey) { lines.push({item:'The Journey', amt:PRICE.journey}); total += PRICE.journey; }
+
+    const discountsApply = d.homecoming && d.journey;
+
     if (d.homecoming) {
-      lines.push({item:'Homecoming (' + (d.hcTheme||'') + ')', amt:PRICE.hc, orig:PRICE.hcStd});
-      total += PRICE.hc;
+      const hcAmt = discountsApply ? PRICE.hc : PRICE.hcStd;
+      const hcOrig = discountsApply ? PRICE.hcStd : null;
+      lines.push({item:'Homecoming (' + (d.hcTheme||'') + ')', amt:hcAmt, orig:hcOrig});
+      total += hcAmt;
     }
 
-    const bmRate = d.homecoming ? PRICE.bmHc : PRICE.bm;
-    const bmOrig = d.homecoming ? PRICE.bm : null;
+    const bmRate = discountsApply ? PRICE.bmHc : PRICE.bm;
+    const bmOrig = discountsApply ? PRICE.bm : null;
     if (d.bridesmaids > 0) {
       const bAmt = d.bridesmaids * bmRate;
       lines.push({item:'Bridesmaids ×' + d.bridesmaids, amt:bAmt, origPerUnit: bmOrig, count: d.bridesmaids});
@@ -799,7 +832,7 @@
     if (d.flowergirls > 0) { const a=d.flowergirls*PRICE.fg; lines.push({item:'Flower Girls ×'+d.flowergirls, amt:a}); total+=a; }
     if (d.littlemaids > 0) { const a=d.littlemaids*PRICE.lm; lines.push({item:'Little Maids ×'+d.littlemaids, amt:a}); total+=a; }
 
-    const discGA = d.homecoming && d.bridesmaids >= 2;
+    const discGA = discountsApply && d.bridesmaids >= 2;
     if (d.goingaway) {
       const gaAmt = discGA ? PRICE.gaDisc : PRICE.ga;
       const gaOrig = discGA ? PRICE.ga : null;
