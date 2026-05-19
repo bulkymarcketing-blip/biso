@@ -622,7 +622,7 @@
   }
 
   function nextStep(to) {
-    if (to === 8) { buildInvoice(); buildSummary(); }
+    if (to === 8) buildSummary();
     if (to === 'contact') { buildOtherInvoice(); buildOtherSummary(); }
     if (to === 5) refreshHomecomingPage();
     const id = to === 'contact' ? 'Contact' : to;
