@@ -509,8 +509,8 @@
     <div class="step-panel" id="step8">
       <button class="btn-back" onclick="prevStep(7)">← Back to Add-Ons</button>
       <div class="step-eyebrow">Final Step</div>
-      <div class="step-title">Where shall Dinushi reach you?</div>
-      <div class="step-sub">Your personalised quote will be sent directly to your WhatsApp — including your full estimate.</div>
+      <div class="step-title">Send your requirements to reveal your estimate</div>
+      <div class="step-sub">Enter your details and send your bridal brief to Dinushi — your personalised estimate will be revealed on the next screen.</div>
 
       <!-- SELECTION SUMMARY -->
       <div style="border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); margin-bottom:22px;">
@@ -537,16 +537,16 @@
         <div class="checkbox-box" id="confirmCheck"></div>
         <div class="checkbox-text">I confirm this is my WhatsApp number and I'd like Dinushi to reach out about my bridal enquiry.</div>
       </div>
-      <button class="btn-primary" id="btnSend" onclick="sendToWhatsApp()" disabled>Get My Personal Quote on WhatsApp</button>
-      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:12px; letter-spacing:0.03em;">Dinushi personally responds to every enquiry within 24 hours.</p>
+      <button class="btn-primary" id="btnSend" onclick="sendToWhatsApp()" disabled>Send & Reveal My Estimate →</button>
+      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:12px; letter-spacing:0.03em;">Your estimate will be revealed on the next screen.</p>
     </div>
 
     <!-- CONTACT PAGE FOR OTHER PATH -->
     <div class="step-panel" id="stepContact">
       <button class="btn-back" onclick="prevStep('3b')">← Back</button>
       <div class="step-eyebrow">Final Step</div>
-      <div class="step-title">Where shall Dinushi reach you?</div>
-      <div class="step-sub">Your estimate will be sent directly to your WhatsApp.</div>
+      <div class="step-title">Send your requirements to reveal your estimate</div>
+      <div class="step-sub">Enter your details and send your enquiry to Dinushi — your estimate will be revealed on the next screen.</div>
 
       <div style="border:1px solid rgba(201,168,76,0.18); background:rgba(0,0,0,0.3); margin-bottom:20px;">
         <div style="padding:12px 16px; border-bottom:1px solid rgba(201,168,76,0.1); font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.38em; color:var(--gold); text-transform:uppercase;">Your Selection</div>
@@ -572,20 +572,34 @@
         <div class="checkbox-box" id="otherConfirmCheck"></div>
         <div class="checkbox-text">I confirm this is my WhatsApp number and I'd like Dinushi to reach out about my enquiry.</div>
       </div>
-      <button class="btn-primary" id="btnOtherSend" onclick="sendOtherToWhatsApp()" disabled>Get My Personal Quote on WhatsApp</button>
-      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:12px; letter-spacing:0.03em;">Dinushi personally responds to every enquiry within 24 hours.</p>
+      <button class="btn-primary" id="btnOtherSend" onclick="sendOtherToWhatsApp()" disabled>Send & Reveal My Estimate →</button>
+      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:12px; letter-spacing:0.03em;">Your estimate will be revealed on the next screen.</p>
     </div>
 
-    <!-- SUCCESS -->
+    <!-- SUCCESS / ESTIMATE REVEAL -->
     <div class="success-screen" id="successScreen">
       <div class="success-icon">✓</div>
-      <div class="success-title">Your quote is ready to send</div>
-      <div class="success-sub">Tap below to open WhatsApp. Your complete bridal estimate is pre-filled and ready — just tap send. Dinushi will personally respond within 24 hours.</div>
+      <div class="success-title">Your requirements are ready to send</div>
+      <div class="success-sub" style="margin-bottom:16px;">Tap below to open WhatsApp — your bridal brief is pre-filled and ready. Just tap send.</div>
       <a class="btn-whatsapp" id="whatsappLink" href="#" target="_blank">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Open WhatsApp — Send to Dinushi
       </a>
-      <p style="text-align:center; font-size:0.78rem; font-style:italic; color:var(--text-dim); margin-top:16px; letter-spacing:0.03em;">Your message is pre-filled. Just tap send.</p>
+
+      <!-- ESTIMATE REVEAL -->
+      <div style="margin-top:32px; border:1px solid rgba(201,168,76,0.25); background:rgba(0,0,0,0.4);">
+        <div style="padding:14px 18px; border-bottom:1px solid rgba(201,168,76,0.15); display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.35em; color:var(--gold); text-transform:uppercase;">Your Personalised Estimate</div>
+          <div style="font-size:0.75rem; color:var(--text-dim); font-style:italic;" id="estimateDate"></div>
+        </div>
+        <div id="estimateLines"></div>
+        <div style="display:flex; justify-content:space-between; padding:14px 18px; border-top:1px solid rgba(201,168,76,0.2); background:rgba(201,168,76,0.05);">
+          <div style="font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; align-self:center;">Total Estimate</div>
+          <div style="font-size:1.2rem; color:var(--gold-pale); font-weight:400; letter-spacing:0.04em;" id="estimateTotal"></div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.8rem; font-style:italic; color:var(--text-dim); margin-top:12px; line-height:1.6; letter-spacing:0.02em;">This is an estimate only. Your final investment is confirmed after your <strong style="color:var(--text-muted);">free personal consultation</strong> with Dinushi — no obligation.</p>
+      <p style="text-align:center; font-size:0.75rem; font-style:italic; color:var(--text-dim); margin-top:10px; letter-spacing:0.03em;">Dinushi personally responds to every enquiry within 24 hours.</p>
     </div>
 
   </div>
@@ -870,11 +884,19 @@
     msg += '*Flower Girls:* ' + d.flowergirls + '\n';
     msg += '*Little Maids:* ' + d.littlemaids + '\n';
     if (d.addons.length) msg += '*Add-Ons:* ' + d.addons.join(', ') + '\n';
-    msg += '\n\uD83D\uDCCB *Estimated Investment*\n';
-    d._lines.forEach(function(l){ msg += '\u2022 ' + l.label + ': ' + l.val + '\n'; });
-    msg += '\n\uD83D\uDCB0 *Total Estimate: ' + fmt(d._total) + '*\n\n';
-    msg += '_This is an estimate. Final investment confirmed at consultation._';
+    msg += '\n_Sent via Biso by Dinushi enquiry form._';
     return msg;
+  }
+
+  function showEstimate() {
+    document.getElementById('estimateDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    var linesHtml = d._lines.map(function(l) {
+      return '<div style="display:flex;justify-content:space-between;padding:11px 18px;border-bottom:1px solid rgba(201,168,76,0.07);font-size:0.9rem;font-weight:300;">'
+        + '<span style="color:var(--off-white);">' + l.label + '</span>'
+        + '<span style="color:var(--gold-light);">' + l.val + '</span></div>';
+    }).join('');
+    document.getElementById('estimateLines').innerHTML = linesHtml;
+    document.getElementById('estimateTotal').textContent = fmt(d._total);
   }
 
   function sendToWhatsApp() {
@@ -883,6 +905,7 @@
     document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('successScreen').style.display = 'block';
+    showEstimate();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -894,11 +917,16 @@
     msg += '*Name:* ' + name + '\n';
     if (date) msg += '*Date:* ' + new Date(date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) + '\n';
     msg += '*WhatsApp:* +94' + phone + '\n\n';
-    msg += '*Service:* ' + d.otherService + '\n';
-    msg += '*Estimate:* ' + fmt(d.otherPrice) + '\n\n';
+    msg += '*Service:* ' + d.otherService + '\n\n';
     msg += '_Sent via Biso by Dinushi enquiry form._';
     var link = 'https://wa.me/94707550221?text=' + encodeURIComponent(msg);
     document.getElementById('whatsappLink').href = link;
+    // Show other estimate
+    document.getElementById('estimateDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    document.getElementById('estimateLines').innerHTML = '<div style="display:flex;justify-content:space-between;padding:11px 18px;font-size:0.9rem;font-weight:300;">'
+      + '<span style="color:var(--off-white);">' + d.otherService + '</span>'
+      + '<span style="color:var(--gold-light);">' + fmt(d.otherPrice) + '</span></div>';
+    document.getElementById('estimateTotal').textContent = fmt(d.otherPrice);
     document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('successScreen').style.display = 'block';
